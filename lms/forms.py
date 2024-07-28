@@ -1,10 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-<<<<<<< HEAD
 from .models import StaffDetails,StaffDepartment
-=======
-from .models import StaffDetails
->>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 from django.contrib.auth.forms import AuthenticationForm
 
 class LoginForm(AuthenticationForm):
@@ -27,11 +23,8 @@ class CreateUserForm(forms.ModelForm):
         return user
 
 class StaffDetailsForm(forms.ModelForm):
-<<<<<<< HEAD
     department = forms.ChoiceField(choices=[])
 
-=======
->>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
     class Meta:
         model = StaffDetails
         fields = ['department', 'doj']
@@ -39,7 +32,6 @@ class StaffDetailsForm(forms.ModelForm):
             'doj': forms.SelectDateWidget(years=range(1980, 2030))
         }
 
-<<<<<<< HEAD
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Fetch departments from StaffDepartment instance
@@ -50,8 +42,6 @@ class StaffDetailsForm(forms.ModelForm):
         except StaffDepartment.DoesNotExist:
             self.fields['department'].choices = []
 
-=======
->>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 class LeaveDownloadForm(forms.Form):
     leave_type = forms.ChoiceField(choices=[
         ('All', 'All'),
