@@ -3254,7 +3254,6 @@ def verify_otp(request):
 
 
 @csrf_exempt
-
 def update_password(request):
     if request.method == "POST":
         new_password = request.POST.get("new_password")
