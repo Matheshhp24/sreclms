@@ -345,7 +345,7 @@ def lop_leave_function(request):
         return render(request,'lop_leave.html',context)
     
 
-
+@login_required
 def earn_leave_function(request):
     if request.method=='POST':
         username = request.user.username
@@ -434,6 +434,7 @@ def earn_leave_function(request):
         return render(request, 'earn_leave.html',context)
     
 
+@login_required
 def vaccation_leave_function(request):
     if request.method=='POST':
         
@@ -499,6 +500,7 @@ def vaccation_leave_function(request):
         context = get_user_common_context(request)
         return render(request,'vaccation_leave.html',context)
 
+@login_required
 def onduty_function(request):
     if request.method=='POST':
         username = request.user.username
@@ -574,7 +576,8 @@ def onduty_function(request):
     else:
         context = get_user_common_context(request)
         return render(request,'onduty.html',context)
-    
+
+@login_required 
 def special_onduty_function(request):
     if request.method=='POST':
         fromDate_str = request.POST.get("fromDate")
@@ -628,6 +631,7 @@ def special_onduty_function(request):
         context = get_user_common_context(request)
         return render(request, 'special_onduty.html',context)
   
+@login_required
 def CH_leave_function(request):
     if request.method=='POST':
         username = request.user.username
@@ -702,7 +706,7 @@ def CH_leave_function(request):
         context = get_user_common_context(request)
         return render(request,'ch_leave.html',context)
   
-
+@login_required
 def medical_leave_function(request):
     if request.method=='POST':
         username = request.user.username
@@ -789,7 +793,7 @@ def medical_leave_function(request):
         return render(request,'medical_leave.html',context)
   
 
-
+@login_required
 def hr_view_function(request):
 
     return render(request,'custom_admin/index.html')
@@ -892,7 +896,7 @@ def make_timezone_naive(data):
     return data
 
 
-
+@login_required
 def add_department(request):
     if request.method == "POST":
         department_name = request.POST.get('department_name')
@@ -2845,7 +2849,6 @@ def add_announcement(request, username, timestamp):
         
 @login_required
 def dashboard(request):
-
     data_list_of_dicts = []
     print(request.user.username)
     result = casual_leave.objects.filter(username=request.user.username)
@@ -2997,7 +3000,7 @@ def dashboard(request):
     print(data_list_of_dicts)
     return render(request,'datatables.html',context=context)
 
-
+@login_required
 def card_dashboard(request):
 
     total_list=[]
@@ -3176,7 +3179,7 @@ def download_individual(request, leave_type):
     response['Content-Disposition'] = f'attachment; filename={request.user.username}_leaves.xlsx'
     return response
 
-
+@login_required
 def account_settings(request):
     staff_notification = StaffDetails.objects.get(username_copy = request.user.username)
     if staff_notification.notification_display:
@@ -3254,6 +3257,7 @@ def verify_otp(request):
 
 
 @csrf_exempt
+@login_required
 def update_password(request):
     if request.method == "POST":
         new_password = request.POST.get("new_password")
