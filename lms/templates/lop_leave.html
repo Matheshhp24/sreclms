@@ -511,21 +511,55 @@
         </div>
 
         <div class="container">
+<<<<<<< HEAD
           <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
           <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
           <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
           <div class="container py-5 px-lg-5">
+=======
+          <div class="page-inner">
+
+            <div id="notification-container" class="position-fixed top-0 end-0 p-3" style="z-index: 1051">
+              {% if notify %}
+                  <div class="alert alert-primary notification-item animate__animated animate__fadeInDown" role="alert" style="max-width: 400px;">
+                      <div class="d-flex justify-content-between align-items-center">
+                          <div>{{ notification_message }}</div>
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                  </div>
+              {% endif %}
+          </div>
+
+
+       
+
+
+
+          <div class="container py-5 px-lg-5">
+            <!-- <div class="wow fadeInUp" data-wow-delay="0.1s">
+                <p class="section-title text-secondary justify-content-center"><span></span>Personal Dashboard<span></span></p>
+                <h1 class="text-center mb-5">Welcome Back, {{username}}!</h1>
+            </div> -->
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
             
             <br>
             <div class="row mt-n2 wow fadeInUp" data-wow-delay="0.3s">
                 <div class="col-12">
                     <div class="card border-primary">
                         {% if flag %}
+<<<<<<< HEAD
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                           <strong>Invalid Date Range.</strong>
                           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
+=======
+                        <div class="alert alert-danger alert-dismissible fade show position-fixed top-50 start-50 translate-middle" role="alert" style="z-index: 9999;">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <label>{{ message }}</label>
+                            <a href="{% url 'LOPLeave'}">LOP Leave</a>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                         </div>
                         {% endif %}
                         <div class="card-body">
@@ -563,7 +597,10 @@
                                         <div class="form-group col-md-6">
                                             <label for="toDate">To Date</label>
                                             <input type="date" class="form-control" name="toDate" id="toDate" required>
+<<<<<<< HEAD
                                             <div id="totalDaysDisplay"></div>
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="leaveType">Leave Type</label>
@@ -580,7 +617,11 @@
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </form>
                                    
+<<<<<<< HEAD
                                 <!-- <script>
+=======
+                                <script>
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
     
                                     document.addEventListener("DOMContentLoaded", function() {
                                     // Get today's date
@@ -663,6 +704,7 @@
     
                             
                         
+<<<<<<< HEAD
                                </script> -->
 
                                <script>
@@ -720,6 +762,8 @@
                                             updateTotalDays();
                                         });
 
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                                </script>
                         
                         </div>

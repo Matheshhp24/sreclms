@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+<<<<<<< HEAD
 class StaffDepartment(models.Model):
     departments = models.JSONField(default=list)
 
@@ -16,11 +17,40 @@ class StaffDepartment(models.Model):
     
 class StaffDetails(models.Model):
 
+=======
+class StaffDetails(models.Model):
+    DEPARTMENT_CHOICES = [
+        
+        ('ECE','ECE'),
+        ('CSE','CSE'),
+        ('EIE','EIE'),
+        ('MATHS','MATHS'),
+        ('CHEMISTRY','CHEMISTRY'),
+        ('ENGLISH','ENGLISH'),
+        ('PHYSICS','PHYSICS'),
+        ('RAE','RAE'),
+        ('MECH','MECH'),
+        ('EEE','EEE'),
+        ('BME','BME'),
+        ('AERO','AERO'),
+        ('CIVIL','CIVIL'),
+        ('IT','IT'),
+        ('NANO','NANO'),
+        ('AIDS','AIDS'),
+        ('MBA','MBA'),
+        ('NT','NT'),
+
+    ]
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     username_copy = models.CharField(max_length=150, blank=True, null=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
+<<<<<<< HEAD
     department = models.CharField(max_length=100)
+=======
+    department = models.CharField(max_length=100,  choices=DEPARTMENT_CHOICES)
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
     doj = models.DateField()  # Date of joining
     otp = models.IntegerField(default=0)
     casual_leave_avail = models.IntegerField(default=0)
@@ -33,16 +63,23 @@ class StaffDetails(models.Model):
     onDutye_avail = models.IntegerField(default=0)
     notification_display  = models.BooleanField(default=False)
     notification_message = models.CharField(max_length=100,default='')
+<<<<<<< HEAD
     is_principal = models.BooleanField(default = False)
 
     def __str__(self):
         return f"{self.user} ----- {self.first_name} {self.last_name}"
+=======
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
     def save(self, *args, **kwargs):
         self.username_copy = self.user.username
         if self.department:
             self.department = self.department.upper()
         super().save(*args, **kwargs)
 
+<<<<<<< HEAD
 class default_table (models.Model):
     casual_leave_default = models.IntegerField(default=12)
     LOP_leave_default = models.IntegerField(default=0)
@@ -52,6 +89,8 @@ class default_table (models.Model):
     vaccationLeave_default = models.IntegerField(default=15)
     specialOnduty_default = models.IntegerField(default=0)
     onDuty_default = models.IntegerField(default=14)
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 
 class casual_leave(models.Model):
     username = models.CharField( max_length=50)
@@ -177,6 +216,7 @@ class onDuty(models.Model):
 class Leave_Availability(models.Model):
     username = models.CharField( max_length=50)
     casual_remaining = models.CharField(max_length = 50 , default = 0)
+<<<<<<< HEAD
     initial_casual_remaining = models.CharField(max_length = 50 , default = 0)
     vaccation_remaining= models.CharField(max_length=50, default=0)
     initial_vaccation_remaining= models.CharField(max_length=50, default=0)
@@ -193,6 +233,16 @@ class Leave_Availability(models.Model):
 
 
 
+=======
+    vaccation_remaining= models.CharField(max_length=50, default=0)
+    onduty_remaining= models.CharField(max_length=50, default=0)
+    medical_leave_remaining= models.CharField(max_length=50, default=0)
+    earn_leave_remaining = models.CharField(max_length=50,default=0)
+    ch_leave_remaining = models.CharField(max_length=50,default=0)
+    def __str__(self):
+        return f"{self.username}"
+
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 class Announcement(models.Model):
     username = models.CharField( max_length=50 )
     announcement = models.CharField(max_length=500)

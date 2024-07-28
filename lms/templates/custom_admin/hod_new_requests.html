@@ -365,6 +365,7 @@
                             row.append($('<td>').text(dataList[i]['session']));
                             row.append($('<td>').text(dataList[i]['remaining']));
                             row.append($('<td>').text(dataList[i]['total_leave']));
+<<<<<<< HEAD
 
                                  // Conditional cell for document URL
                             let documentUrl = admin_list[i]['document_url'];3
@@ -382,6 +383,10 @@
                             // Append the document cell
                             row.append(documentCell);
 
+=======
+                            row.append($('<td>').html(dataList[i]['document_url'] && dataList[i]['document_url'] !== "/" ? `<a href="${dataList[i]['document_url']}" target="_blank">View</a>` : 'No document'));
+                            
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                             // Create Action cell with approve/decline buttons
                             var actionCell = $('<td>');
                             var approveBtn = $('<button>', {
@@ -476,6 +481,7 @@
                         row.append($('<td>').text(admin_list[i]['session']));
                         row.append($('<td>').text(admin_list[i]['remaining']));
                         row.append($('<td>').text(admin_list[i]['total_leave']));
+<<<<<<< HEAD
                          // Conditional cell for document URL
                         let documentUrl = admin_list[i]['document_url'];
                         let documentCell;
@@ -492,6 +498,10 @@
                         row.append(documentCell);
 
                         // Append the row to the table body
+=======
+                        row.append($('<td>').html(admin_list[i]['document_url'] && admin_list[i]['document_url'] !== "/" ? `<a href="${admin_list[i]['document_url']}" target="_blank">View</a>` : 'No document'));
+
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                         tableBody.append(row);
                     }
                 }

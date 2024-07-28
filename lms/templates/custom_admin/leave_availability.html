@@ -92,7 +92,11 @@
                     </div>
                     <div class="ms-3">
                         <h6 class="mb-0">SREC</h6>
+<<<<<<< HEAD
                         <span>Admin {{admin }}</span>
+=======
+                        <span>Admin {{ admin }}</span>
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
@@ -102,6 +106,7 @@
                     <a href="{% url 'AdminPage' %}" class="nav-item nav-link "><i class="fas fa-tachometer-alt"></i> Admin panel</a>
                     {% endif %}
                     {% if is_hod %}
+<<<<<<< HEAD
                         <a href="{% url 'HODNewRequests' %}" class="nav-item nav-link "><i class="fas fa-keyboard"></i> New Requests
                     {% elif is_principal %}
                         <a href="{% url 'NewRequests' %}" class="nav-item nav-link "><i class="fas fa-keyboard"></i> New Requests   
@@ -117,21 +122,44 @@
                     
                     {% if is_hod %}
                     {% elif is_principal %}
+=======
+                        <a href="{% url 'HODNewRequests' %}" class="nav-item nav-link"><i class="fas fa-keyboard"></i> New Requests
+                    {% else %}
+                        <a href="{% url 'NewRequests' %}" class="nav-item nav-link"><i class="fas fa-keyboard"></i>New Requests
+                    {% endif %}
+                        <!-- {% if pending > 0 %}
+                            <span class="badge bg-danger rounded-pill"> {{ pending }}</span>
+                        {% else %}
+                            <span></span>
+                        {% endif %} -->
+                    </a>
+                    
+                    {% if is_hod %}
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     {% else %}
                     <a href="{% url 'AddStaff' %}" class="nav-item nav-link"><i class="fas fa-user-plus"></i> Add Staff </a>
                     {% endif %}
                     {% if is_hod %}
+<<<<<<< HEAD
                     {% elif is_principal %}
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     {% else %}
                     <a href="{% url 'DeleteStaffView' %}" class="nav-item nav-link"><i class="fas fa-user-minus"></i> Delete Staff </a>
                     {% endif %}
                     {% if is_hod %}
+<<<<<<< HEAD
                     {% elif is_principal %}
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     {% else %}
                     <a href="{% url 'EditStaffView' %}" class="nav-item nav-link"><i class="fas fa-user-edit"></i> Edit Staff </a>
                     {% endif %}
                     {% if is_hod %}
+<<<<<<< HEAD
                     {% elif is_principal %}
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     {% else %}
                     <a href="{% url 'AvailLeaveView' %}" class="nav-item nav-link"><i class="fas fa-calendar-check"></i> Avail Leave</a>
                     {% endif %}
@@ -140,11 +168,15 @@
                     {% else %}
                     <a href="{% url 'DownloadView' %}" class="nav-item nav-link"><i class="fas fa-download"></i> Download</a>
                     {% endif %}
+<<<<<<< HEAD
                     {% if is_hod %}
                     <a href="{% url 'HODLeaveAvailability' %}" class="nav-item nav-link active"><i class="fas fa-building"></i>Remaining</a>
                     {% else %}
                     <a href="{% url 'LeaveAvailability' %}" class="nav-item nav-link active"><i class="fas fa-building"></i>Remaining</a>
                     {% endif %}
+=======
+                    <a href="{% url 'LeaveAvailability' %}" class="nav-item nav-link active"><i class="fas fa-building"></i> Remaining</a>
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     {% if is_hod %}
                     <a href="{% url 'HODAdminAccount' %}" class="nav-item nav-link "><i class="fas fa-cogs"></i>Account</a>
                     {% else %}
@@ -248,11 +280,16 @@
             
             
             <div class="container">
+<<<<<<< HEAD
                 <div class="row"><br>
+=======
+                <div class="row">
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">History</h4>
+<<<<<<< HEAD
                                 {% if is_hod %}
                                 <a href="{% url 'HODDownloadLeaveAvailability' %}" class="btn btn-success d-print-none">Download Leave Data</a>
                                 {% else %}
@@ -265,6 +302,10 @@
                                 <div id="header-image">
                                     <img src="../../static/img/header.png" alt="College Header" style="width: 100%;">
                                 </div><br>
+=======
+                            </div>
+                            <div class="card-body">
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-responsive-md" id="leave-table" style="color: rgb(0, 0, 0);">
                                         <thead>
@@ -286,21 +327,35 @@
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
             
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
             
+=======
+        
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
             <script>
                 // Data passed from Django context
                 var data_list = {{ data_dics|safe }};
                 console.log(data_list)
+<<<<<<< HEAD
             
                 // Function to populate the table
                 function populateTable(dataList) {
                     var tableBody = $('#leave-table-body');
             
+=======
+        
+                // Function to populate the table
+                function populateTable(dataList) {
+                    var tableBody = $('#leave-table-body');
+        
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     for (var i = 0; i < dataList.length; i++) {
                         var row = $('<tr>');
                         row.append($('<td>').text(dataList[i]['username']));
@@ -313,14 +368,24 @@
                         tableBody.append(row);
                     }
                 }
+<<<<<<< HEAD
             
+=======
+        
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                 // Initialize DataTable
                 $(document).ready(function() {
                     // Call the function to populate the table with the Django data
                     populateTable(data_list);
+<<<<<<< HEAD
             
                     // Initialize DataTable after populating data
                     var table = $('#leave-table').DataTable({
+=======
+        
+                    // Initialize DataTable after populating data
+                    $('#leave-table').DataTable({
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                         pageLength: 5,
                         initComplete: function () {
                             this.api()
@@ -349,6 +414,7 @@
                                 });
                         },
                     });
+<<<<<<< HEAD
             
                     // Print button functionality
                     $('#print-button').click(function() {
@@ -427,6 +493,10 @@
             
             
             
+=======
+                });
+            </script>
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 
             <!-- Sale & Revenue Start -->
             

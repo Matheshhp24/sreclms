@@ -552,6 +552,7 @@
             </div>
     
             <div class="container">
+<<<<<<< HEAD
               <div class="container-xxl py-5">
                 <div class="container py-5 px-lg-5">
                   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -569,6 +570,36 @@
                           </div>
                           {% endif %}
                             <div class="card border-primary">
+=======
+              <div class="page-inner">
+    
+                <div id="notification-container" class="position-fixed top-0 end-0 p-3" style="z-index: 1051">
+                  {% if notify %}
+                      <div class="alert alert-primary notification-item animate__animated animate__fadeInDown" role="alert" style="max-width: 400px;">
+                          <div class="d-flex justify-content-between align-items-center">
+                              <div>{{ notification_message }}</div>
+                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                      </div>
+                  {% endif %}
+              </div>
+    
+    
+           
+              <div class="container-xxl py-5">
+                <div class="container py-5 px-lg-5">
+                    <br>
+                    <div class="row mt-n2 wow fadeInUp" data-wow-delay="0.3s">
+                        <div class="col-12">
+                            <div class="card border-primary">
+                                {% if flag %}
+                                <div class="alert alert-danger alert-dismissible fade show position-fixed top-50 start-50 translate-middle" role="alert" style="z-index: 9999;">
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                <span>You are not Eligible</span>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                                {% endif %}
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                                 <div class="card-body">
                                     <div class="container">
                                         
@@ -597,12 +628,18 @@
                                                     </div>
                                                     <div class="form-group col-md-6">
                                                         <label for="onFromDate">On/From Date</label>
+<<<<<<< HEAD
                                                         <input type="date" class="form-control" name="fromDate" id="onFromDate" required>                              
+=======
+                                                        <input type="date" class="form-control" name="fromDate" id="onFromDate" required>
+            `                                                </div>
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <label for="toDate">To Date</label>
                                                         <input type="date" class="form-control" name="toDate" id="toDate" required>
+<<<<<<< HEAD
                                                         <div id="totalDaysDisplay"></div>
                                                     
                                                     <script>
@@ -663,12 +700,16 @@
                                                      </script>
                                                      </div>
                                                      
+=======
+                                                    </div>
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                                                     <div class="form-group col-md-6">
                                                         <label for="leaveType">Leave Type</label>
                                                         <select class="form-control" name="session" id="leaveType" required>
                                                             <option value="fullDay">Full Day</option>
                                                         </select>
                                                     </div>
+<<<<<<< HEAD
                                                     <div class="form-group col-md-6">
                                                       <label for="option">Select Option:</label>
                                                       <select class="form-control" id="option" name="option">
@@ -684,6 +725,22 @@
                                                     <label for="fileInput">Upload File</label>
                                                     <input type="file" class="form-control-file" id="fileInput" name="file">
                                                 </div>
+=======
+                                                </div><br>
+                                                <div class="form-row">
+                                                
+                                                <div class="form-group col-md-6">
+                                                    <label for="option">Select Option:</label>
+                                                    <select class="form-control" id="option" name="option">
+                                                        <option value="Encashment">Encashment</option>
+                                                        <option value="Accumulation">Accumulation</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="fileInput">Upload File</label>
+                                                    <input type="file" class="form-control-file" id="fileInput" name="file">
+                                                </div><br>
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                                                 </div>
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                             </form>

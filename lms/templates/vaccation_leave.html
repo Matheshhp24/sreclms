@@ -509,6 +509,7 @@
           <!-- End Navbar -->
         </div>
 
+<<<<<<< HEAD
         <div class="container">      
           <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
           <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -528,6 +529,31 @@
                             </button>
                           </div>
                           {% endif %}
+=======
+        <div class="container">
+          <div class="page-inner">
+
+            <div id="notification-container" class="position-fixed top-0 end-0 p-3" style="z-index: 1051">
+              {% if notify %}
+                  <div class="alert alert-primary notification-item animate__animated animate__fadeInDown" role="alert" style="max-width: 400px;">
+                      <div class="d-flex justify-content-between align-items-center">
+                          <div>{{ notification_message }}</div>
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                  </div>
+              {% endif %}
+          </div>
+
+
+       
+
+
+          <div class="container-xxl py-5">
+            <div class="container py-5 px-lg-5">
+                <br>
+                <div class="row mt-n2 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="col-12">
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                         <div class="card border-primary">
                             <div class="card-body">
                                 <div class="container">
@@ -568,6 +594,7 @@
                                         <div class="form-group col-md-6">
                                             <label for="toDate">To Date</label>
                                             <input type="date" class="form-control" name="toDate" id="toDate" required>
+<<<<<<< HEAD
                                             <div id="totalDaysDisplay"></div>
                                                     <script>
                                                       document.addEventListener("DOMContentLoaded", function() {
@@ -624,16 +651,27 @@
                                                                   updateTotalDays();
                                                               });
                                                      </script>
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="leaveType">Leave Type</label>
                                             <select class="form-control" name="session" id="leaveType" required>
+<<<<<<< HEAD
                                                 <!-- <option value="fn">Fn</option>
                                                 <option value="an">An</option> -->
                                                 <option value="fullDay">Full Day</option>
                                             </select>
                                         </div>
                                     </div>
+=======
+                                                <option value="fn">Fn</option>
+                                                <option value="an">An</option>
+                                                <option value="fullDay">Full Day</option>
+                                            </select>
+                                        </div>
+                                    </div><br>
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                                     <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="option">Select Option:</label>
@@ -645,7 +683,11 @@
                                     <div class="form-group col-md-6">
                                         <label for="fileInput">Upload File</label>
                                         <input type="file" class="form-control-file" id="fileInput" name="file">
+<<<<<<< HEAD
                                     </div>
+=======
+                                    </div><br>
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                                     </div>
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </form>

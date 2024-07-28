@@ -268,7 +268,11 @@
                                                 if (xhr.status == 200 && response.status === 'success') {
                                                     alert("Password updated successfully. Please login again.");
                                                     jq7('#updatePasswordModal').modal('hide');
+<<<<<<< HEAD
                                                     window.location.href = '/';
+=======
+                                                    window.location.href = '/login/';
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                                                 } else {
                                                     alert(response.message);
                                                 }

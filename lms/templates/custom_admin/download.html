@@ -84,7 +84,11 @@
                     </div>
                     <div class="ms-3">
                         <h6 class="mb-0">SREC</h6>
+<<<<<<< HEAD
                         <span>Admin {{admin }}</span>
+=======
+                        <span>Admin {{ admin }}</span>
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
@@ -94,11 +98,17 @@
                     <a href="{% url 'AdminPage' %}" class="nav-item nav-link "><i class="fas fa-tachometer-alt"></i> Admin panel</a>
                     {% endif %}
                     {% if is_hod %}
+<<<<<<< HEAD
                         <a href="{% url 'HODNewRequests' %}" class="nav-item nav-link "><i class="fas fa-keyboard"></i> New Requests
                     {% elif is_principal %}
                         <a href="{% url 'NewRequests' %}" class="nav-item nav-link "><i class="fas fa-keyboard"></i> New Requests   
                     {% else %}
                            
+=======
+                        <a href="{% url 'HODNewRequests' %}" class="nav-item nav-link"><i class="fas fa-keyboard"></i> New Requests
+                    {% else %}
+                        <a href="{% url 'NewRequests' %}" class="nav-item nav-link"><i class="fas fa-keyboard"></i> New Requests   
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     {% endif %}
                         {% if pending > 0 %}
                             <span class="badge bg-danger rounded-pill"> {{ pending }}</span>
@@ -108,22 +118,34 @@
                     </a>
                     
                     {% if is_hod %}
+<<<<<<< HEAD
                     {% elif is_principal %}
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     {% else %}
                     <a href="{% url 'AddStaff' %}" class="nav-item nav-link"><i class="fas fa-user-plus"></i> Add Staff </a>
                     {% endif %}
                     {% if is_hod %}
+<<<<<<< HEAD
                     {% elif is_principal %}
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     {% else %}
                     <a href="{% url 'DeleteStaffView' %}" class="nav-item nav-link"><i class="fas fa-user-minus"></i> Delete Staff </a>
                     {% endif %}
                     {% if is_hod %}
+<<<<<<< HEAD
                     {% elif is_principal %}
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     {% else %}
                     <a href="{% url 'EditStaffView' %}" class="nav-item nav-link"><i class="fas fa-user-edit"></i> Edit Staff </a>
                     {% endif %}
                     {% if is_hod %}
+<<<<<<< HEAD
                     {% elif is_principal %}
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     {% else %}
                     <a href="{% url 'AvailLeaveView' %}" class="nav-item nav-link"><i class="fas fa-calendar-check"></i> Avail Leave</a>
                     {% endif %}
@@ -142,7 +164,10 @@
                     {% else %}
                     <a href="{% url 'AdminAccount' %}" class="nav-item nav-link "><i class="fas fa-cogs"></i>Account</a>
                     {% endif %}
+<<<<<<< HEAD
 
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                 </div>
             </nav>
         </div>

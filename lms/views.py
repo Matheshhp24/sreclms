@@ -122,6 +122,7 @@ def home(request):
            
         # If no record exists for the current model, set the value to "Not Applied Yet"
             last_leave[leave_model.__name__] = "Not Applied Yet" # No records found for this leave type
+<<<<<<< HEAD
     total_list = []
 
     
@@ -156,11 +157,19 @@ def home(request):
     total_taken = float(earn_total)-float(remaining)
     total_list.append(total_taken)
     print(total_list)
+=======
+
+
+    
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
     
 
     specific_context = {
         'last_leave': last_leave,
+<<<<<<< HEAD
         'total_days': total_list
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
         
     }
     user_common_context = get_user_common_context(request)
@@ -177,7 +186,10 @@ def profile(request):
          'lastname':request.user.last_name,
          'Department':StaffDetails.objects.get(username_copy = request.user.username).department,
          'Doj':StaffDetails.objects.get(username_copy = request.user.username).doj,
+<<<<<<< HEAD
          'staff_id':request.user.username
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
     }
     user_common_context = get_user_common_context(request)
     context = merge_contexts(user_common_context,specific_context)
@@ -186,6 +198,7 @@ def profile(request):
 
 @login_required
 def casual_leave_function(request):
+<<<<<<< HEAD
     if request.method == 'POST':
         username = request.user.username
         fromDate_str = request.POST.get("fromDate")
@@ -282,13 +295,104 @@ def casual_leave_function(request):
             total_leave=tot_days,
             reason=request.POST.get("reason"),
             document=document
+=======
+    if request.method=='POST':
+        username = request.user.username    
+        fromDate_str = request.POST.get("fromDate")
+        toDate_str = request.POST.get("toDate")
+        fromDate = datetime.strptime(fromDate_str, '%Y-%m-%d')
+        fromDate_month = fromDate.month
+        toDate = datetime.strptime(toDate_str, '%Y-%m-%d')
+        date_difference = toDate - fromDate
+        days_difference = (date_difference.days)+1
+        session = request.POST.get("session")
+        print(session)
+        if session == 'fullDay':
+            tot_days = days_difference
+        else:
+            tot_days = float((days_difference)/2)
+            print("TOTTTTT",tot_days)
+        if 'file' in request.FILES:
+            document = request.FILES['file'] 
+            print(document)
+        else:
+            document = None
+            print(document)
+        # username = request.session.get('username')
+        print("CS" , username)
+        # result = casual_leave.objects.filter(username=username) 
+        remaining = float(Leave_Availability.objects.get(username = username).casual_remaining)
+        print(remaining)
+        total_leave = tot_days
+
+
+        # if len((result))>0:
+
+        #     remaining = result.aggregate(Min('remaining'))['remaining__min']
+        #     print("rem",remaining)
+            # remaining1 = result.filter(username=username).order_by('remaining').first()
+            # print('remmm',remaining1)
+        # remaining += float(StaffDetails.objects.get(username_copy = request.user.username).casual_leave_avail)
+        # print(remaining)
+        # if remaining == 0:
+        #      remaining  += float(StaffDetails.objects.get(username_copy = request.user.username).casual_leave_avail)
+
+
+        print('user :' ,username)
+        print(request.user)
+        
+        print(tot_days,'--=-')
+        leave_count_result = casual_leave.objects.filter(username=username, status='Approved', from_Date__startswith=f'{fromDate.year}-{fromDate.month:02}')
+        print(len(leave_count_result),'--')
+        if (remaining)<=0 or remaining<tot_days or days_difference>1 or  days_difference <= 0 or len(leave_count_result)==1:
+            specific_context = {
+                "remaining" : remaining,
+                "flag" : True,
+                'user':username,
+                "this_month" : len(leave_count_result)
+                
+            }
+            user_common_context = get_user_common_context(request)
+            context = merge_contexts(user_common_context,specific_context)
+            print("Exceed")
+            return render(request , "casual_leave.html" , context=context)        
+        print(remaining)
+        
+
+        # specific_context = {
+        #     "days" : tot_days,
+        #     "remaining" : remaining-total_leave,
+        #     "flag" : False,
+        #     "leave_type" : "Casual Leave",
+        #     'user':username,
+        #     "leave_count":len(leave_count_result)
+        # }
+        # user_common_context = get_user_common_context(request)
+        # context = merge_contexts(user_common_context,specific_context)
+
+        
+        casual_leave_instance  = casual_leave(
+        username = username,
+        date_Applied = datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        from_Date = fromDate_str,
+        to_Date = toDate_str,
+        session = request.POST.get("session"),
+        remaining = remaining,
+        total_leave = total_leave,
+        reason = request.POST.get("reason"),
+        document = document
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
         )
         casual_leave_instance.save()
         return redirect('Home')
     else:
         context = get_user_common_context(request)
+<<<<<<< HEAD
         return render(request, 'casual_leave.html', context)
 
+=======
+        return render(request, 'casual_leave.html',context)
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 
 
 @login_required
@@ -314,7 +418,11 @@ def lop_leave_function(request):
             tot_days = (days_difference)/2
         date_difference_days = date_difference.days
         # username = request.session.get('username')
+<<<<<<< HEAD
         if days_difference <= 0:
+=======
+        if date_difference_days < 0:
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
             specific_context = {             
                 "flag" : True,
                 "message" : "Date Invalid"           
@@ -323,6 +431,18 @@ def lop_leave_function(request):
             context = merge_contexts(user_common_context,specific_context)
             return render(request, 'lop_leave.html',context=context)
 
+<<<<<<< HEAD
+=======
+        
+        
+
+    
+        result = LOP_leave.objects.filter(username=username) 
+        total_leave = tot_days
+        if len((result))>0:
+            total_leave = result[len(result)-1].total_leave
+            total_leave+=float(tot_days)
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
             
     
         
@@ -332,7 +452,11 @@ def lop_leave_function(request):
         from_Date = fromDate_str,
         to_Date = toDate_str,
         session = request.POST.get("session"),
+<<<<<<< HEAD
         total_leave = tot_days,
+=======
+        total_leave = total_leave,
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
         reason = request.POST.get("reason"),
         document = document
         )
@@ -345,7 +469,11 @@ def lop_leave_function(request):
         return render(request,'lop_leave.html',context)
     
 
+<<<<<<< HEAD
 @login_required
+=======
+
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 def earn_leave_function(request):
     if request.method=='POST':
         username = request.user.username
@@ -368,9 +496,15 @@ def earn_leave_function(request):
         # username = request.session.get('username')
         print("CS" , username)
         print("Name:",  )
+<<<<<<< HEAD
         # result = earnLeave.objects.filter(username=username)
         year_instance = StaffDetails.objects.filter(username_copy = request.user.username)
         # print(result)
+=======
+        result = earnLeave.objects.filter(username=username)
+        year_instance = StaffDetails.objects.filter(username_copy = request.user.username)
+        print(result)
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
         
         applying_year = fromDate.year
         # Get the year of the applying date and the joined date
@@ -391,13 +525,20 @@ def earn_leave_function(request):
 
             
         print(tot_days,'--=-')
+<<<<<<< HEAD
         print(remaining,'remmmmmm')
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
         
         leave_count_result = earnLeave.objects.filter(username=username, status='Approved', from_Date__startswith=f'{fromDate.year}-{fromDate.month:02}')
         print(len(leave_count_result),'--')
 
 
+<<<<<<< HEAD
         if remaining<=0 or float(remaining)<float(tot_days) or applying_year < eligible_year or days_difference <= 0 :
+=======
+        if remaining<=0 or float(remaining)<float(tot_days) or applying_year < eligible_year or days_difference <= 0 or int(len(leave_count_result))==5:
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
             specific_context = {
                 "remaining" : remaining,
                 "flag" : True,
@@ -434,7 +575,10 @@ def earn_leave_function(request):
         return render(request, 'earn_leave.html',context)
     
 
+<<<<<<< HEAD
 @login_required
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 def vaccation_leave_function(request):
     if request.method=='POST':
         
@@ -459,11 +603,18 @@ def vaccation_leave_function(request):
         username = request.user.username
         staff_name = request.user.first_name
         remaining = Leave_Availability.objects.get(username = username).vaccation_remaining
+<<<<<<< HEAD
         print(remaining)
         if float(remaining)<=0 or float(remaining)<float(tot_days) or days_difference <= 0:
             specific_context = {
             "days" : tot_days,
             "flag" : True,
+=======
+        if remaining<=0 or float(remaining)<float(tot_days) or days_difference <= 0:
+            specific_context = {
+            "days" : tot_days,
+            "flag" : False,
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
             "leave_type" : "Vaccation Leave",
             'user':username,
 
@@ -500,7 +651,10 @@ def vaccation_leave_function(request):
         context = get_user_common_context(request)
         return render(request,'vaccation_leave.html',context)
 
+<<<<<<< HEAD
 @login_required
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 def onduty_function(request):
     if request.method=='POST':
         username = request.user.username
@@ -511,15 +665,20 @@ def onduty_function(request):
         fromDate_month = fromDate.month
         toDate = datetime.strptime(toDate_str, '%Y-%m-%d')
         date_difference = toDate - fromDate
+<<<<<<< HEAD
         print(date_difference)
         days_difference = (date_difference.days)+1
         session = request.POST.get("session")
+=======
+        days_difference = (date_difference.days)+1
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
         if 'file' in request.FILES:
             document = request.FILES['file'] 
             print(document)
         else:
             document = None
             print(document)
+<<<<<<< HEAD
         # tot_days = days_difference
         if session == 'fullDay':
             tot_days = days_difference
@@ -531,6 +690,13 @@ def onduty_function(request):
         result = onDuty.objects.filter(username=username) 
         remaining = Leave_Availability.objects.get(username = username).onduty_remaining
         print(remaining,days_difference)
+=======
+        tot_days = days_difference
+        # username = request.session.get('username')
+        print("CS" , username)
+        result = onDuty.objects.filter(username=username) 
+        remaining = Leave_Availability.objects.get(username = username).onduty_remaining
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
         total_leave = tot_days
         # if len((result))>0:
 
@@ -544,7 +710,11 @@ def onduty_function(request):
         
         # leave_count_result = onDuty.objects.filter(username=username, status='Approved', from_Date__startswith=f'{fromDate.year}-{fromDate.month:02}')
         # print(len(leave_count_result),'--')
+<<<<<<< HEAD
         if float(remaining)<=0 or float(remaining)<tot_days  or  days_difference <= 0:
+=======
+        if float(remaining)<=0 or float(remaining)<tot_days or days_difference>float(remaining) or  days_difference <= 0:
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
             specific_context = {
                 "remaining" : remaining,
                 "flag" : True,
@@ -576,8 +746,12 @@ def onduty_function(request):
     else:
         context = get_user_common_context(request)
         return render(request,'onduty.html',context)
+<<<<<<< HEAD
 
 @login_required 
+=======
+    
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 def special_onduty_function(request):
     if request.method=='POST':
         fromDate_str = request.POST.get("fromDate")
@@ -600,6 +774,7 @@ def special_onduty_function(request):
             tot_days = (days_difference)/2
         username = request.user.username
         
+<<<<<<< HEAD
         if days_difference <= 0:
             specific_context = {             
                 "flag" : True,
@@ -609,6 +784,19 @@ def special_onduty_function(request):
             context = merge_contexts(user_common_context,specific_context)
             return render(request, 'special_onduty.html',context=context)
         
+=======
+        specific_context = {
+            "days" : tot_days,
+            "flag" : False,
+            "leave_type" : "LOP Leave",
+            'user':username,
+        }
+        result = specialOnduty.objects.filter(username=username) 
+        total_leave = tot_days
+        if len((result))>0:
+            total_leave = result[len(result)-1].total_leave
+            total_leave+=float(tot_days)
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
             
     
         
@@ -619,7 +807,11 @@ def special_onduty_function(request):
         from_Date = fromDate_str,
         to_Date = toDate_str,
         session = request.POST.get("session"),
+<<<<<<< HEAD
         total_leave = tot_days,
+=======
+        total_leave = total_leave,
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
         reason = request.POST.get("reason"),
         document = document
         )
@@ -631,7 +823,10 @@ def special_onduty_function(request):
         context = get_user_common_context(request)
         return render(request, 'special_onduty.html',context)
   
+<<<<<<< HEAD
 @login_required
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 def CH_leave_function(request):
     if request.method=='POST':
         username = request.user.username
@@ -660,7 +855,11 @@ def CH_leave_function(request):
         result = CH_leave.objects.filter(username=username) 
         print(result)
         # remaining_q = login_details.objects.get(username=username)
+<<<<<<< HEAD
         remaining = Leave_Availability.objects.get(username = username).ch_leave_remaining
+=======
+        remaining = Leave_Availability.objects.get(username = username)
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 
 
         total_leave = tot_days
@@ -671,7 +870,11 @@ def CH_leave_function(request):
             
         print(tot_days,'--=-')
         
+<<<<<<< HEAD
         if float(remaining)<=0 or float(remaining)<float(tot_days)  or  float(days_difference) <= 0 :
+=======
+        if remaining<=0 or remaining<tot_days  or  days_difference <= 0 :
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
             specific_context = {
                 "remaining" : remaining,
                 "flag" : True,
@@ -706,7 +909,11 @@ def CH_leave_function(request):
         context = get_user_common_context(request)
         return render(request,'ch_leave.html',context)
   
+<<<<<<< HEAD
 @login_required
+=======
+
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 def medical_leave_function(request):
     if request.method=='POST':
         username = request.user.username
@@ -728,7 +935,11 @@ def medical_leave_function(request):
         # username = request.session.get('username')
         print("CS" , username)
         result = medicalLeave.objects.filter(username=username.upper()) 
+<<<<<<< HEAD
         user_login_details = StaffDetails.objects.get(username_copy=request.user.username)
+=======
+        user_login_details = StaffDetails.objects.get(first_name=request.user.first_name)
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 
     # Get the year of the applying date and the joined date
         applying_year = fromDate.year
@@ -742,7 +953,11 @@ def medical_leave_function(request):
         # Check if the applying year is at least 3 years greater than the joined year
        
 
+<<<<<<< HEAD
         remaining = Leave_Availability.objects.get(username =username).medical_leave_remaining
+=======
+        remaining = Leave_Availability.objects.get(username =username)
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 
         total_leave = tot_days
         # if len((result))>0:
@@ -757,7 +972,11 @@ def medical_leave_function(request):
         leave_count_result = medicalLeave.objects.filter(username=username, status='Approved', from_Date__startswith=f'{fromDate.year}-{fromDate.month:02}')
         print(len(leave_count_result),'--')
 
+<<<<<<< HEAD
         if float(remaining)<0 or float(remaining)<float(tot_days) or applying_year < eligible_year or float(days_difference) <= 0:
+=======
+        if remaining<0 or int(remaining)<int(tot_days) or applying_year < eligible_year or days_difference <= 0:
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
             specific_context = {
                 "remaining" : remaining,
                 "flag" : True,
@@ -793,7 +1012,11 @@ def medical_leave_function(request):
         return render(request,'medical_leave.html',context)
   
 
+<<<<<<< HEAD
 @login_required
+=======
+
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 def hr_view_function(request):
 
     return render(request,'custom_admin/index.html')
@@ -806,6 +1029,7 @@ def admin_login(request):
         password = request.POST.get("password")
         print(username,password)
         user = authenticate(request, username=username, password=password)
+<<<<<<< HEAD
 
         if user is not None:
             try:
@@ -815,15 +1039,21 @@ def admin_login(request):
                 staff_details = False
 
         # print(staff_details)
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
         if user is not None and user.is_superuser and user.is_staff and user.is_active:
             login(request, user)
             return redirect('AdminPage')
         elif user is not None and user.is_active and user.is_staff and not user.is_superuser:
             login(request,user)
             return redirect("HODPage")
+<<<<<<< HEAD
         elif user is not None and  user.is_active and not user.is_staff and staff_details and not user.is_superuser:
             login(request, user)
             return redirect('AdminPage')
+=======
+             
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
         else:
             context={
                 'error_message':"Wrong Username or Password"
@@ -833,7 +1063,11 @@ def admin_login(request):
     else:
         return render(request,'admin-login.html')
 
+<<<<<<< HEAD
 def get_common_context(request,principal_username):
+=======
+def get_common_context(request):
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
     user_details = StaffDetails.objects.get(username_copy=request.user.username)
     leave_types = [
             casual_leave, LOP_leave, CH_leave, medicalLeave,
@@ -866,17 +1100,24 @@ def get_common_context(request,principal_username):
         casual_leave_count + LOP_leave_count + CH_leave_count + medicalLeave_count +
         earnLeave_count + vaccationLeave_count + specialOnduty_count + onDuty_count
     )
+<<<<<<< HEAD
     if principal_username:
         admin = "Principal"
     else:
         admin = "HR"
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 
     common_context = {
         'notification_message': user_details.notification_message,
         'recent_data': recent_data, 
         'pending':int(total_approved_count),
+<<<<<<< HEAD
         'admin': admin,
         'is_principal':principal_username
+=======
+        'admin': 'HR'
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
     }
     return common_context
 
@@ -886,6 +1127,7 @@ def merge_contexts(common_context, specific_context):
     return context
 
 
+<<<<<<< HEAD
 
 def make_timezone_naive(data):
     for item in data:
@@ -914,17 +1156,26 @@ def add_department(request):
 
         return redirect(request.META.get('HTTP_REFERER', '/'))
 
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 @login_required    
 def admin_page(request , username=None):
     user = request.user
     is_superuser = user.is_superuser
     is_staff = user.is_staff
+<<<<<<< HEAD
     principal_username = StaffDetails.objects.get(username_copy = request.user.username).is_principal
     print('principal',principal_username)
 
     if request.user.is_superuser or principal_username:
         print("User is a superuser")
         common_context = get_common_context(request,principal_username)
+=======
+
+    if request.user.is_superuser:
+        print("User is a superuser")
+        common_context = get_common_context(request)
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
         if request.resolver_match.url_name == "NewRequests":
             print("New Request")
 
@@ -1128,8 +1379,11 @@ def admin_page(request , username=None):
                 if user_form.is_valid() and staff_form.is_valid():
                     is_staff = request.POST.get('is_staff')
                     is_superuser = request.POST.get('is_superuser')  
+<<<<<<< HEAD
                     is_principal = request.POST.get('is_principal')
                     principal_flag = False  
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                        
 
                     user = user_form.save(commit=False)
@@ -1137,21 +1391,28 @@ def admin_page(request , username=None):
                         user.is_staff = True
                     if is_superuser:
                         user.is_superuser = True
+<<<<<<< HEAD
                     if is_principal:
                         principal_flag = True
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 
                     user.save()
                     staff_details = staff_form.save(commit=False)
                     staff_details.user = user
                     staff_details.first_name = user.first_name
                     staff_details.last_name = user.last_name
+<<<<<<< HEAD
                     staff_details.is_principal = principal_flag
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     print(user.username)
                     casual = request.POST.get("casual")
                     vaccation = request.POST.get("vaccation")
                     onduty = request.POST.get("onduty")
                     medical = request.POST.get("medical")
                     earn = request.POST.get("earn")
+<<<<<<< HEAD
                     print("earn",earn)
                     
                     default_leave_table = default_table.objects.first()
@@ -1179,6 +1440,16 @@ def admin_page(request , username=None):
                         ch_leave_remaining = 0,
                         initial_ch_leave_remaining = 0,
                         
+=======
+                    leave_availability_instance = Leave_Availability(
+                        username = user.username,
+                        casual_remaining = int(casual),
+                        vaccation_remaining = int(vaccation),
+                        onduty_remaining = int(onduty),
+                        medical_leave_remaining = int(medical),
+                        earn_leave_remaining = int(earn),
+                        ch_leave_remaining = 0
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     )
                     leave_availability_instance.save()
                     
@@ -1191,6 +1462,7 @@ def admin_page(request , username=None):
             else:
                 user_form = CreateUserForm()
                 staff_form = StaffDetailsForm()
+<<<<<<< HEAD
             default_leave_table_instance = default_table.objects.all()
             print(default_leave_table_instance)
             for instance in default_leave_table_instance:
@@ -1203,10 +1475,13 @@ def admin_page(request , username=None):
                 specialOnduty_default = instance.specialOnduty_default
                 onDuty_default = instance.onDuty_default
                 
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 
             specific_context = {
                 'user_form': user_form,
                 'staff_form': staff_form,
+<<<<<<< HEAD
                 'cld':casual_leave_default,
                 'lld':LOP_leave_default,
                 'chd':CH_leave_default,
@@ -1217,6 +1492,8 @@ def admin_page(request , username=None):
                 'ond':onDuty_default
 
 
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
             }
             context = merge_contexts(common_context,specific_context)
             return render(request,'custom_admin/addstaff.html', context=context)
@@ -1265,11 +1542,19 @@ def admin_page(request , username=None):
             print(search_id)
 
             if search_id:
+<<<<<<< HEAD
                 staff_details = User.objects.filter(username=search_id).filter(Q(is_active=True) | Q(is_staff=True), is_superuser=False)
                 print(staff_details)
 
             else:
                 staff_details = User.objects.filter(Q(is_active=True) | Q(is_staff=True) , is_superuser=False)
+=======
+                staff_details = User.objects.filter(username=search_id)
+                print(staff_details)
+
+            else:
+                staff_details = User.objects.all()
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
             
             # staff_details = User.objects.all()
             specific_context = {
@@ -1362,6 +1647,7 @@ def admin_page(request , username=None):
                 # 'Special Onduty': specialOnduty,
                 'Onduty': 'onduty_remaining',
             }
+<<<<<<< HEAD
                 INITIAL_REMAINING_TYPE_MODEL_MAP = {
                 'Casual Leave': 'intial_casual_remaining',
                 # 'LOP Leave': LOP_leave,
@@ -1376,6 +1662,10 @@ def admin_page(request , username=None):
                 intiall_field_name1 = INITIAL_REMAINING_TYPE_MODEL_MAP[leave_type]
                 existing_remaining = float(getattr(leave_availibility_remaining, field_name1))
                 # intial_existing_remaining = float(getattr(leave_availibility_remaining, intiall_field_name1))
+=======
+                field_name1 = REMAINING_TYPE_MODEL_MAP[leave_type]
+                existing_remaining = float(getattr(leave_availibility_remaining, field_name1))
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                 
                 
                 if action == 'increment':
@@ -1389,12 +1679,19 @@ def admin_page(request , username=None):
                 # REMAINING_TYPE_MODEL_MAP[leave_type] = new_value
                 
                 print(REMAINING_TYPE_MODEL_MAP[leave_type])
+<<<<<<< HEAD
                 
+=======
+                leave_availibility_remaining.save()
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                 print(Leave_Availability.objects.get(username = username_from_function).casual_remaining)
 
                 setattr(leave_instance, field_name, leave_avail)
                 setattr(leave_availibility_remaining, field_name1, new_value)
+<<<<<<< HEAD
                 # setattr(leave_availibility_remaining, intiall_field_name1, new_value)
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                 leave_instance.save()
                 leave_availibility_remaining.save()
                 
@@ -1546,6 +1843,7 @@ def admin_page(request , username=None):
             return render(request,'custom_admin/leave_availability.html', context)
 
 
+<<<<<<< HEAD
         elif request.resolver_match.url_name == "DownloadLeaveAvailability":
                 staff_members = User.objects.filter(Q(is_active=True) | Q(is_staff=True), is_superuser=False)
                 staff_usernames = staff_members.values_list('username', flat=True)
@@ -1637,6 +1935,8 @@ def admin_page(request , username=None):
 
                 return response
 
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 
         elif request.resolver_match.url_name == "AdminAccount":
             specific_context = {
@@ -1679,7 +1979,10 @@ def admin_page(request , username=None):
         }
 
         context = merge_contexts(common_context,specific_context)
+<<<<<<< HEAD
         print(context)
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
         return render(request,'custom_admin/index.html', context=context)
     
 
@@ -1980,6 +2283,7 @@ def hod_page(request,username=None):
             return render(request, 'custom_admin/leave_availability.html' ,context)
 
 
+<<<<<<< HEAD
         elif request.resolver_match.url_name == "HODDownloadLeaveAvailability":
             print('JI')
             staff_members = User.objects.filter(Q(is_active=True) | Q(is_staff=True), is_superuser=False)
@@ -2013,6 +2317,8 @@ def hod_page(request,username=None):
             return response
 
 
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
         elif request.resolver_match.url_name == "HODDownloadView":
             search_id = request.GET.get('search_id')
 
@@ -2360,6 +2666,11 @@ def requests_handling(request):
 
                 send_email(subject, body, to_email)
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
             elif leave_type == 'Special Onduty':
                 result = specialOnduty.objects.filter(unique_id = unique_id)
                 result.update(status=data.get('action'))
@@ -2431,6 +2742,10 @@ def requests_handling(request):
 
                 print("Approved")
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
             elif leave_type == 'Vaccation Leave':
                 result = vaccationLeave.objects.filter(unique_id = unique_id)
                 result.update(status=data.get('action'))
@@ -2525,9 +2840,15 @@ def requests_handling(request):
                     # result1_queryset = result1.filter(username=username).order_by('ch_avail')
                     # least_remaining_result = result1_queryset.first()
                     # least_remaining_value = least_remaining_result.remaining
+<<<<<<< HEAD
                     # result.update(remaining = remaining)
                     # filterered = login_details.objects.filter(username=username)
                     # filterered.update(ch_avail =( remaining))
+=======
+                    # result.update(remaining = float(remaining) - float(total_leave))
+                    # filterered = login_details.objects.filter(username=username)
+                    # filterered.update(ch_avail =( float(remaining) - float(total_leave)))
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 
                 subject = "Leave Update"
                 body = f"""
@@ -2624,18 +2945,31 @@ def requests_handling(request):
                 username = data.get('rowData[username]')
                 print('user',username)
                 result1 = onDuty.objects.filter(username = username)
+<<<<<<< HEAD
                 reducing_remaining = Leave_Availability.objects.get(username = username)
+=======
+
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 
                 result.update(status=data.get('action'))
 
                 if data.get('action') == "Approved":
                     total_leave = data.get('rowData[total_leave]')
+<<<<<<< HEAD
                     remaining = float(reducing_remaining.onduty_remaining) - float(total_leave)
                     reducing_remaining.onduty_remaining = remaining
                     reducing_remaining.save()
 
 
                     print('leasst',remaining )
+=======
+                    result1_queryset = result1.filter(username=username).order_by('remaining')
+                    least_remaining_result = result1_queryset.first()
+                    least_remaining_value = least_remaining_result.remaining
+                    result.update(remaining = float(least_remaining_value) - float(total_leave))
+
+                    print('leasst',least_remaining_value )
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 
 
                 subject = "Leave Update"
@@ -2651,7 +2985,11 @@ def requests_handling(request):
                 - To Date: {data.get('rowData[to_Date]')}
                 - Reason: {data.get('rowData[reason]')}
                 - Session: {data.get('rowData[session]')}
+<<<<<<< HEAD
                 - Remaining Leave: {float(remaining)}
+=======
+                - Remaining Leave: {float(least_remaining_value) - float(total_leave)}
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                 - Total Leave: {data.get('rowData[total_leave]')}
 
                 Status: {data.get('action')}    
@@ -2669,19 +3007,35 @@ def requests_handling(request):
 
                 send_email(subject, body, to_email)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
             elif leave_type == "Medical Leave":
 
                 result = medicalLeave.objects.filter(unique_id = unique_id)
                 username = data.get('rowData[username]')
+<<<<<<< HEAD
                 reducing_remaining = Leave_Availability.objects.get(username = username)
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                 print('user',username)
                 result1 = medicalLeave.objects.filter(username = username)
                 result.update(status=data.get('action'))
                 if data.get('action') == "Approved":
                     total_leave = data.get('rowData[total_leave]')
+<<<<<<< HEAD
                     remaining = float(reducing_remaining.medical_leave_remaining) - float(total_leave)
                     reducing_remaining.medical_leave_remaining = remaining
                     reducing_remaining.save()
+=======
+                    result1_queryset = result1.filter(username=username).order_by('remaining')
+                    least_remaining_result = result1_queryset.first()
+                    least_remaining_value = least_remaining_result.remaining
+                    result.update(remaining = float(least_remaining_value) - float(total_leave))
+
+                    print('leasst',least_remaining_value )
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 
                 subject = "Leave Update"
                 body = f"""
@@ -2696,7 +3050,11 @@ def requests_handling(request):
                 - To Date: {data.get('rowData[to_Date]')}
                 - Reason: {data.get('rowData[reason]')}
                 - Session: {data.get('rowData[session]')}
+<<<<<<< HEAD
                 - Remaining Leave: {remaining}
+=======
+                - Remaining Leave: {float(least_remaining_value) - float(total_leave)}
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                 - Total Leave: {data.get('rowData[total_leave]')}
 
                 Status: {data.get('action')}    
@@ -2714,7 +3072,10 @@ def requests_handling(request):
 
 
                 send_email(subject, body, to_email)
+<<<<<<< HEAD
 
+=======
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
             elif leave_type == "Accumulation":
 
                 result = earnLeave.objects.filter(unique_id = unique_id)
@@ -2724,8 +3085,13 @@ def requests_handling(request):
                 result.update(status=data.get('action'))
                 if data.get('action') == "Approved":
                     total_leave = data.get('rowData[total_leave]')
+<<<<<<< HEAD
                     remaining = float(result1.earn_leave_remaining) - float(total_leave)
                     result1.earn_leave_remaining = remaining
+=======
+                    remaining = float(result1.casual_remaining) - float(total_leave)
+                    result1.casual_remaining = remaining
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     result1.save()
 
                     # print('leasst',least_remaining_value )
@@ -2743,7 +3109,11 @@ def requests_handling(request):
                 - To Date: {data.get('rowData[to_Date]')}
                 - Reason: {data.get('rowData[reason]')}
                 - Session: {data.get('rowData[session]')}
+<<<<<<< HEAD
                 - Remaining Leave: {remaining}
+=======
+                - Remaining Leave: {float(least_remaining_value) - float(total_leave)}
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                 - Total Leave: {data.get('rowData[total_leave]')}
 
                 Status: {data.get('action')}    
@@ -2773,8 +3143,13 @@ def requests_handling(request):
                 if data.get('action') == "Approved":
                     total_leave = data.get('rowData[total_leave]')
                     # result1.earn_leave_remaining = float()
+<<<<<<< HEAD
                     remaining = float(result1.earn_leave_remaining) - float(total_leave)
                     result1.earn_leave_remaining = remaining
+=======
+                    remaining = float(result1.casual_remaining) - float(total_leave)
+                    result1.casual_remaining = remaining
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     result1.save()
                     
                     
@@ -2796,7 +3171,11 @@ def requests_handling(request):
                 - To Date: {data.get('rowData[to_Date]')}
                 - Reason: {data.get('rowData[reason]')}
                 - Session: {data.get('rowData[session]')}
+<<<<<<< HEAD
                 - Remaining Leave: {remaining}
+=======
+                - Remaining Leave: {data.get('rowData[remaining]')}
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                 - Total Leave: {data.get('rowData[total_leave]')}
 
                 Status: {data.get('action')}    
@@ -2826,8 +3205,12 @@ def requests_handling(request):
 
 @login_required
 def add_announcement(request, username, timestamp):
+<<<<<<< HEAD
     principal_username = StaffDetails.objects.get(username_copy = request.user.username).is_principal
     if request.user.is_superuser or principal_username:
+=======
+    if request.user.is_superuser:
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
         if request.method == "POST":
             announcement = request.POST.get("announcement")
             username = request.user.first_name
@@ -2849,6 +3232,10 @@ def add_announcement(request, username, timestamp):
         
 @login_required
 def dashboard(request):
+<<<<<<< HEAD
+=======
+
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
     data_list_of_dicts = []
     print(request.user.username)
     result = casual_leave.objects.filter(username=request.user.username)
@@ -2890,8 +3277,13 @@ def dashboard(request):
                     "username": item.username,
                     "leave_type": item.leave_type,
                     "date_Applied": item.date_Applied.isoformat() if item.date_Applied else None,
+<<<<<<< HEAD
                     "from_Date": item.from_Date,
                     "to_Date": item.to_Date ,
+=======
+                    "from_Date": item.from_Date.isoformat(),
+                    "to_Date": item.to_Date.isoformat() ,
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     "session": item.session.upper(),
                     "remaining": item.remaining,
                     "total_leave": item.total_leave,
@@ -2905,8 +3297,13 @@ def dashboard(request):
                     "username": item.username,
                     "leave_type": item.leave_type,
                     "date_Applied": item.date_Applied.isoformat() if item.date_Applied else None,
+<<<<<<< HEAD
                     "from_Date": item.from_Date,
                     "to_Date": item.to_Date,
+=======
+                    "from_Date": item.from_Date.isoformat(),
+                    "to_Date": item.to_Date.isoformat(),
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     "session": item.session.upper(),
                     "remaining": item.remaining,
                     "total_leave": item.total_leave,
@@ -2935,8 +3332,13 @@ def dashboard(request):
                     "username": item.username,
                     "leave_type": item.leave_type,
                     "date_Applied": item.date_Applied.isoformat() if item.date_Applied else None,
+<<<<<<< HEAD
                     "from_Date": item.from_Date,
                     "to_Date": item.to_Date,
+=======
+                    "from_Date": item.from_Date.isoformat(),
+                    "to_Date": item.to_Date.isoformat(),
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     "session": item.session.upper(),
                     "remaining": item.remaining,
                     "total_leave": item.total_leave,
@@ -2950,8 +3352,13 @@ def dashboard(request):
                     "username": item.username,
                     "leave_type": item.leave_type,
                     "date_Applied": item.date_Applied.isoformat() if item.date_Applied else None,
+<<<<<<< HEAD
                     "from_Date": item.from_Date,
                     "to_Date": item.to_Date,
+=======
+                    "from_Date": item.from_Date.isoformat(),
+                    "to_Date": item.to_Date.isoformat(),
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     "session": item.session.upper(),
                     "remaining": item.remaining,
                     "total_leave": item.total_leave,
@@ -2965,8 +3372,13 @@ def dashboard(request):
                     "username": item.username,
                     "leave_type": item.leave_type,
                     "date_Applied": item.date_Applied.isoformat() if item.date_Applied else None,
+<<<<<<< HEAD
                     "from_Date": item.from_Date,
                     "to_Date": item.to_Date,
+=======
+                    "from_Date": item.from_Date.isoformat(),
+                    "to_Date": item.to_Date.isoformat(),
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
                     "session": item.session.upper(),
                     "remaining": item.remaining,
                     "total_leave": item.total_leave,
@@ -3000,7 +3412,11 @@ def dashboard(request):
     print(data_list_of_dicts)
     return render(request,'datatables.html',context=context)
 
+<<<<<<< HEAD
 @login_required
+=======
+
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 def card_dashboard(request):
 
     total_list=[]
@@ -3010,9 +3426,17 @@ def card_dashboard(request):
      
     #0.casual leave
 
+<<<<<<< HEAD
     casual_total = float(Leave_Availability.objects.get(username = request.user.username).initial_casual_remaining)
     remaining = float(Leave_Availability.objects.get(username = request.user.username).casual_remaining)
     total_taken = float(casual_total)-float(remaining)
+=======
+    result = casual_leave.objects.filter(username = request.user.username)
+    remaining = casual_total = float(Leave_Availability.objects.get(username = request.user.username).casual_remaining)
+    if len((result))>0:
+        casual_total = result.aggregate(Max('remaining'))['remaining__max']
+    total_taken = casual_total-remaining
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
     taken = (total_taken /casual_total)*100
     percentage_taken.append(taken)
     total_list.append(total_taken)
@@ -3022,8 +3446,17 @@ def card_dashboard(request):
     
     #1. Vaccation leave
 
+<<<<<<< HEAD
     vaccation_total = float(Leave_Availability.objects.get(username = request.user.username).initial_vaccation_remaining)
     remaining = float(Leave_Availability.objects.get(username = request.user.username).vaccation_remaining)
+=======
+    result = vaccationLeave.objects.filter(username = request.user.username)
+    remaining = vaccation_total = float(Leave_Availability.objects.get(username = request.user.username).vaccation_remaining)
+    if len((result))>0:
+        vaccation_total = result.aggregate(Max('remaining'))['remaining__max']
+    # print(remaining)
+    
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
     total_taken = vaccation_total-remaining
     taken = (total_taken/vaccation_total)* 100
     print(taken)
@@ -3034,8 +3467,16 @@ def card_dashboard(request):
 
     #2. On duty
 
+<<<<<<< HEAD
     onduty_total = float(Leave_Availability.objects.get(username = request.user.username).initial_onduty_remaining)
     remaining = float(Leave_Availability.objects.get(username = request.user.username).onduty_remaining)
+=======
+    result = onDuty.objects.filter(username = request.user.username)
+    remaining = onduty_total = float(Leave_Availability.objects.get(username = request.user.username).onduty_remaining)
+    if len((result))>0:
+        onduty_total = result.aggregate(Max('remaining'))['remaining__max']
+    # print(remaining)
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
     total_taken = onduty_total-remaining
     taken = (total_taken/onduty_total)* 100
     print(taken)
@@ -3047,8 +3488,16 @@ def card_dashboard(request):
 
     #3. Medical Leave
 
+<<<<<<< HEAD
     medical_total = float(Leave_Availability.objects.get(username = request.user.username).initial_medical_leave_remaining)
     remaining = float(Leave_Availability.objects.get(username = request.user.username).medical_leave_remaining)
+=======
+    result = medicalLeave.objects.filter(username = request.user.username)
+    remaining = medical_total = float(Leave_Availability.objects.get(username = request.user.username).medical_leave_remaining)
+    if len((result))>0:
+        remaining = result.aggregate(Max('remaining'))['remaining__max']
+    # print(remaining)
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
     total_taken = medical_total-remaining
     taken = (total_taken/medical_total)* 100
     print(taken)
@@ -3059,8 +3508,16 @@ def card_dashboard(request):
 
     #4 ch avail
 
+<<<<<<< HEAD
     ch_total = float(Leave_Availability.objects.get(username = request.user.username).initial_ch_leave_remaining)
     remaining = float(Leave_Availability.objects.get(username = request.user.username).ch_leave_remaining)
+=======
+    result = CH_leave.objects.filter(username = request.user.username)
+    remaining = ch_total = float(Leave_Availability.objects.get(username = request.user.username).ch_leave_remaining)
+    if len((result))>0:
+        remaining = result.aggregate(Max('remaining'))['remaining__max']
+    # print(remaining)
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
     total_taken = ch_total-remaining
     if ch_total != 0:
         taken = (total_taken / ch_total) * 100
@@ -3075,8 +3532,16 @@ def card_dashboard(request):
     
     #5 earn leave
     
+<<<<<<< HEAD
     earn_total = float(Leave_Availability.objects.get(username = request.user.username).initial_earn_leave_remaining)
     remaining = float(Leave_Availability.objects.get(username = request.user.username).earn_leave_remaining)
+=======
+    result = earnLeave.objects.filter(username = request.user.username)
+    remaining = earn_total = float(Leave_Availability.objects.get(username = request.user.username).earn_leave_remaining)
+    if len((result))>0:
+        remaining = result.aggregate(Max('remaining'))['remaining__max']
+    # print(remaining)
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
     total_taken = float(earn_total)-float(remaining)
     taken = (total_taken/earn_total)* 100
     print(taken)
@@ -3179,7 +3644,11 @@ def download_individual(request, leave_type):
     response['Content-Disposition'] = f'attachment; filename={request.user.username}_leaves.xlsx'
     return response
 
+<<<<<<< HEAD
 @login_required
+=======
+
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 def account_settings(request):
     staff_notification = StaffDetails.objects.get(username_copy = request.user.username)
     if staff_notification.notification_display:
@@ -3257,7 +3726,11 @@ def verify_otp(request):
 
 
 @csrf_exempt
+<<<<<<< HEAD
 @login_required
+=======
+
+>>>>>>> ffb26b97a2715c20203b6f4c56265c2c23fe644c
 def update_password(request):
     if request.method == "POST":
         new_password = request.POST.get("new_password")
