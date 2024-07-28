@@ -20,9 +20,12 @@ urlpatterns = [
     path('hod-download/<str:username>/', hod_page, name='HODDownload'),
     path('download-all', admin_page, name='DownloadAll'),
     path('hod-download-all', hod_page, name='HODDownloadAll'),
-    # path("login/",auth_views.LoginView.as_view(template_name = 'login.html'),name='Login'),
+    path('download_leavedata', admin_page, name='DownloadLeaveAvailability'),
+    path('hod-download_leavedata', hod_page, name='HODDownloadLeaveAvailability'),
+    path('delete-and-reset', admin_page, name='DeleteAndReset'),
     path('', CustomLoginView.as_view(), name='Login'),
     path("logout/", auth_views.LogoutView.as_view(template_name='logout.html'), name='Logout'),
+    # path("login/",auth_views.LoginView.as_view(template_name = 'login.html'),name='Login'),
 
     path('home/',home,name='Home'),
     path('history/',dashboard,name='Dashboard'),
@@ -56,6 +59,7 @@ urlpatterns = [
     path('update_email/',update_email , name='UpdateEmail'),
     path('leave_availability/',admin_page , name='LeaveAvailability'),
     path('leave_availability_hod/',hod_page , name='HODLeaveAvailability'),
+    path('adding_department/',add_department , name='AddDepartment'),
     path('leave_documents/<path>/', serve, {'document_root': settings.MEDIA_ROOT}),
 
 

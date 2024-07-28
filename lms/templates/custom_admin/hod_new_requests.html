@@ -365,8 +365,23 @@
                             row.append($('<td>').text(dataList[i]['session']));
                             row.append($('<td>').text(dataList[i]['remaining']));
                             row.append($('<td>').text(dataList[i]['total_leave']));
-                            row.append($('<td>').html(dataList[i]['document_url'] && dataList[i]['document_url'] !== "/" ? `<a href="${dataList[i]['document_url']}" target="_blank">View</a>` : 'No document'));
-                            
+
+                                 // Conditional cell for document URL
+                            let documentUrl = admin_list[i]['document_url'];3
+                            console.log(documentUrl)
+                            let documentCell;
+
+                            if (documentUrl && documentUrl !== "/media/") {
+                                // URL exists and is not just a placeholder
+                                documentCell = $('<td>').html(`<a href="${documentUrl}" target="_blank">View</a>`);
+                            } else {
+                                // No URL or placeholder
+                                documentCell = $('<td>').html('<span>No document</span>');
+                            }
+
+                            // Append the document cell
+                            row.append(documentCell);
+
                             // Create Action cell with approve/decline buttons
                             var actionCell = $('<td>');
                             var approveBtn = $('<button>', {
@@ -461,8 +476,22 @@
                         row.append($('<td>').text(admin_list[i]['session']));
                         row.append($('<td>').text(admin_list[i]['remaining']));
                         row.append($('<td>').text(admin_list[i]['total_leave']));
-                        row.append($('<td>').html(admin_list[i]['document_url'] && admin_list[i]['document_url'] !== "/" ? `<a href="${admin_list[i]['document_url']}" target="_blank">View</a>` : 'No document'));
+                         // Conditional cell for document URL
+                        let documentUrl = admin_list[i]['document_url'];
+                        let documentCell;
 
+                        if (documentUrl && documentUrl !== "/media/") {
+                            // URL exists and is not just a placeholder
+                            documentCell = $('<td>').html(`<a href="${documentUrl}" target="_blank">View</a>`);
+                        } else {
+                            // No URL or placeholder
+                            documentCell = $('<td>').html('<span>No document</span>');
+                        }
+
+                        // Append the document cell
+                        row.append(documentCell);
+
+                        // Append the row to the table body
                         tableBody.append(row);
                     }
                 }

@@ -549,35 +549,20 @@
               <!-- End Navbar -->
             </div>
     
-            <div class="container">
-              <div class="page-inner">
-    
-                <div id="notification-container" class="position-fixed top-0 end-0 p-3" style="z-index: 1051">
-                  {% if notify %}
-                      <div class="alert alert-primary notification-item animate__animated animate__fadeInDown" role="alert" style="max-width: 400px;">
-                          <div class="d-flex justify-content-between align-items-center">
-                              <div>{{ notification_message }}</div>
-                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <!-- <div class="container"> -->
+                    <div class="container-xxl py-5">
+                      <div class="container py-5 px-lg-5">
+                        <div class="row mt-n2 wow fadeInUp" data-wow-delay="0.3s">
+                          <div class="col-12">
+                            {% if flag %}
+                          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>You are not Eligible</strong> 
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
                           </div>
-                      </div>
-                  {% endif %}
-              </div>
-    
-    
-           
-              <div class="container-xxl py-5">
-                <div class="container py-5 px-lg-5">
-                    <br>
-                    <div class="row mt-n2 wow fadeInUp" data-wow-delay="0.3s">
-                        <div class="col-12">
+                          {% endif %}
                             <div class="card border-primary">
-                                {% if flag %}
-                                <div class="alert alert-danger alert-dismissible fade show position-fixed top-50 start-50 translate-middle" role="alert" style="z-index: 9999;">
-                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                                <span>You Exceed Onduty limit - Try to Apply Special-Onduty . You already applied {{this_month}} day(s) of leave on this month<a href="{% url 'LopLeave' %}" class="alert-link">click here</a></span>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                                {% endif %}
                                 <div class="card-body">
                                     <div class="container">
                                         
@@ -612,17 +597,21 @@
                                         </div>
                                         
                                         <div class="form-row">
+                                          
                                             <div class="form-group col-md-6">
                                                 <label for="toDate">To Date</label>
                                                 <input type="date" class="form-control" name="toDate" id="toDate" required>
                                                 <div id="totalDaysDisplay"></div>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="leaveType">Leave Type</label>
-                                                <select class="form-control" name="session" id="leaveType" required>
-                                                    <option value="fullDay">Full Day</option>
-                                                </select>
+                                              <label for="leaveType">Leave Type</label>
+                                              <select class="form-control" name="session" id="leaveType" required>
+                                                  <option value="fullDay">Full Day</option>
+                                                  <option value="An">An</option>
+                                                  <option value="Fn">Fn</option>
+                                              </select>
                                             </div>
+                                           
                                         </div>
                                         <div class="form-group">
                                             <label for="fileInput">Upload File</label>
@@ -636,37 +625,63 @@
             
                             
                                         document.addEventListener("DOMContentLoaded", function() {
-                                    var fromDateInput = document.getElementById('onFromDate');
-                                    var toDateInput = document.getElementById('toDate');
-                                    var totalDaysDisplay = document.getElementById('totalDaysDisplay');
-                            
-                                    function updateTotalDays() {
-                                        var fromDate = new Date(fromDateInput.value);
-                                        var toDate = new Date(toDateInput.value);
-                            
-                                        var timeDifference = toDate.getTime() - fromDate.getTime();
-                                        var daysDifference = (timeDifference / (1000 * 3600 * 24))+1;
-                            
-                                        if (!isNaN(daysDifference) && daysDifference >= 0) {
-                                            totalDaysDisplay.textContent = 'Total Days: ' + daysDifference;
-                                        } else {
-                                            totalDaysDisplay.textContent = 'Invalid date range';
+                                        var fromDateInput = document.getElementById('onFromDate');
+                                        var toDateInput = document.getElementById('toDate');
+                                        var sessionSelect = document.getElementById('leaveType');
+                                        var totalDaysDisplay = document.getElementById('totalDaysDisplay');
+
+                                        function updateTotalDays() {
+                                            var fromDate = new Date(fromDateInput.value);
+                                            var toDate = new Date(toDateInput.value);
+                                            var session = sessionSelect.value;
+                                            var daysDifference;
+
+                                            if (session === 'fullDay') {
+                                                daysDifference = calculateFullDayDifference(fromDate, toDate);
+                                            } else if (session === 'An' || session === 'Fn') {
+                                                daysDifference = calculateHalfDayDifference(fromDate, toDate);
+                                            } else {
+                                                totalDaysDisplay.textContent = 'Invalid session';
+                                                return;
+                                            }
+
+                                            if (!isNaN(daysDifference) && daysDifference >= 0) {
+                                                totalDaysDisplay.textContent = 'Total Days: ' + daysDifference;
+                                            } else {
+                                                totalDaysDisplay.textContent = 'Invalid date range';
+                                            }
                                         }
-                                    }
+
+                                        function calculateFullDayDifference(fromDate, toDate) {
+                                            var timeDifference = toDate.getTime() - fromDate.getTime();
+                                            return (timeDifference / (1000 * 3600 * 24)) + 1;
+                                        }
+
+                                        function calculateHalfDayDifference(fromDate, toDate) {
+                                            var timeDifference = toDate.getTime() - fromDate.getTime();
+                                            var daysDifference = timeDifference / (1000 * 3600 * 24);
+
+                                            if (daysDifference >= 0 && daysDifference < 1) {
+                                                return 0.5; // Less than 1 day counts as half-day
+                                            } else if (daysDifference >= 1) {
+                                                return 0.5 * (daysDifference + 1); // More than 1 day counts as a whole day
+                                            } else {
+                                                return 0; // Invalid date range
+                                            }
+                                        }
+
+                                        fromDateInput.addEventListener('change', updateTotalDays);
+                                        toDateInput.addEventListener('change', updateTotalDays);
+                                        sessionSelect.addEventListener('change', updateTotalDays);
+
+                                        // Initially calculate total days when the page loads
+                                        updateTotalDays();
+                                    });
                             
-                                    fromDateInput.addEventListener('change', updateTotalDays);
-                                    toDateInput.addEventListener('change', updateTotalDays);
-                                });
-                                    </script>
                             
-                                    <!-- Success Modal -->
-                                    
-                                  
-                                    
-                                <div class="mb-4">{{username}} , You have {{ remaining }} more Onduty.</div>
-                                
-                                
+                                 </script>
                             
+                                                             
                             </div>
                         </div>
                     </div>

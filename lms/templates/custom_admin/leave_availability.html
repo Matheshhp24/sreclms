@@ -92,7 +92,7 @@
                     </div>
                     <div class="ms-3">
                         <h6 class="mb-0">SREC</h6>
-                        <span>Admin {{ admin }}</span>
+                        <span>Admin {{admin }}</span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
@@ -102,30 +102,36 @@
                     <a href="{% url 'AdminPage' %}" class="nav-item nav-link "><i class="fas fa-tachometer-alt"></i> Admin panel</a>
                     {% endif %}
                     {% if is_hod %}
-                        <a href="{% url 'HODNewRequests' %}" class="nav-item nav-link"><i class="fas fa-keyboard"></i> New Requests
+                        <a href="{% url 'HODNewRequests' %}" class="nav-item nav-link "><i class="fas fa-keyboard"></i> New Requests
+                    {% elif is_principal %}
+                        <a href="{% url 'NewRequests' %}" class="nav-item nav-link "><i class="fas fa-keyboard"></i> New Requests   
                     {% else %}
-                        <a href="{% url 'NewRequests' %}" class="nav-item nav-link"><i class="fas fa-keyboard"></i>New Requests
+                           
                     {% endif %}
-                        <!-- {% if pending > 0 %}
+                        {% if pending > 0 %}
                             <span class="badge bg-danger rounded-pill"> {{ pending }}</span>
                         {% else %}
                             <span></span>
-                        {% endif %} -->
+                        {% endif %}
                     </a>
                     
                     {% if is_hod %}
+                    {% elif is_principal %}
                     {% else %}
                     <a href="{% url 'AddStaff' %}" class="nav-item nav-link"><i class="fas fa-user-plus"></i> Add Staff </a>
                     {% endif %}
                     {% if is_hod %}
+                    {% elif is_principal %}
                     {% else %}
                     <a href="{% url 'DeleteStaffView' %}" class="nav-item nav-link"><i class="fas fa-user-minus"></i> Delete Staff </a>
                     {% endif %}
                     {% if is_hod %}
+                    {% elif is_principal %}
                     {% else %}
                     <a href="{% url 'EditStaffView' %}" class="nav-item nav-link"><i class="fas fa-user-edit"></i> Edit Staff </a>
                     {% endif %}
                     {% if is_hod %}
+                    {% elif is_principal %}
                     {% else %}
                     <a href="{% url 'AvailLeaveView' %}" class="nav-item nav-link"><i class="fas fa-calendar-check"></i> Avail Leave</a>
                     {% endif %}
@@ -134,7 +140,11 @@
                     {% else %}
                     <a href="{% url 'DownloadView' %}" class="nav-item nav-link"><i class="fas fa-download"></i> Download</a>
                     {% endif %}
-                    <a href="{% url 'LeaveAvailability' %}" class="nav-item nav-link active"><i class="fas fa-building"></i> Remaining</a>
+                    {% if is_hod %}
+                    <a href="{% url 'HODLeaveAvailability' %}" class="nav-item nav-link active"><i class="fas fa-building"></i>Remaining</a>
+                    {% else %}
+                    <a href="{% url 'LeaveAvailability' %}" class="nav-item nav-link active"><i class="fas fa-building"></i>Remaining</a>
+                    {% endif %}
                     {% if is_hod %}
                     <a href="{% url 'HODAdminAccount' %}" class="nav-item nav-link "><i class="fas fa-cogs"></i>Account</a>
                     {% else %}
@@ -238,13 +248,23 @@
             
             
             <div class="container">
-                <div class="row">
+                <div class="row"><br>
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">History</h4>
+                                {% if is_hod %}
+                                <a href="{% url 'HODDownloadLeaveAvailability' %}" class="btn btn-success d-print-none">Download Leave Data</a>
+                                {% else %}
+                                <a href="{% url 'DownloadLeaveAvailability' %}" class="btn btn-success d-print-none">Download Leave Data</a>
+                                {% endif %}
+                                <button id="print-button" class="btn btn-primary d-print-none">Print Table</button>
                             </div>
                             <div class="card-body">
+                                <!-- Header image for print and PDF -->
+                                <div id="header-image">
+                                    <img src="../../static/img/header.png" alt="College Header" style="width: 100%;">
+                                </div><br>
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-responsive-md" id="leave-table" style="color: rgb(0, 0, 0);">
                                         <thead>
@@ -266,18 +286,21 @@
                     </div>
                 </div>
             </div>
-        
+            
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
+            
             <script>
                 // Data passed from Django context
                 var data_list = {{ data_dics|safe }};
                 console.log(data_list)
-        
+            
                 // Function to populate the table
                 function populateTable(dataList) {
                     var tableBody = $('#leave-table-body');
-        
+            
                     for (var i = 0; i < dataList.length; i++) {
                         var row = $('<tr>');
                         row.append($('<td>').text(dataList[i]['username']));
@@ -290,14 +313,14 @@
                         tableBody.append(row);
                     }
                 }
-        
+            
                 // Initialize DataTable
                 $(document).ready(function() {
                     // Call the function to populate the table with the Django data
                     populateTable(data_list);
-        
+            
                     // Initialize DataTable after populating data
-                    $('#leave-table').DataTable({
+                    var table = $('#leave-table').DataTable({
                         pageLength: 5,
                         initComplete: function () {
                             this.api()
@@ -326,8 +349,84 @@
                                 });
                         },
                     });
+            
+                    // Print button functionality
+                    $('#print-button').click(function() {
+                        // Show all rows before printing
+                        table.page.len(-1).draw();
+                        window.print();
+                        // Revert to original length after printing
+                        table.page.len(5).draw();
+                    });
+            
+                    // PDF button functionality
+                    $('#pdf-button').click(async function() {
+                        const { jsPDF } = window.jspdf;
+                        const doc = new jsPDF();
+            
+                        // Add header image
+                        const imgData = await loadImage('path/to/your/header-image.jpg');
+                        doc.addImage(imgData, 'JPEG', 10, 10, doc.internal.pageSize.getWidth() - 20, 30);
+            
+                        // Add table
+                        doc.autoTable({ 
+                            startY: 50,
+                            html: '#leave-table',
+                        });
+                        doc.save('leave-table.pdf');
+                    });
+            
+                    // Function to load image
+                    function loadImage(url) {
+                        return new Promise((resolve, reject) => {
+                            const img = new Image();
+                            img.crossOrigin = 'Anonymous';
+                            img.onload = () => {
+                                const canvas = document.createElement('canvas');
+                                canvas.width = img.width;
+                                canvas.height = img.height;
+                                const ctx = canvas.getContext('2d');
+                                ctx.drawImage(img, 0, 0);
+                                resolve(canvas.toDataURL('image/jpeg'));
+                            };
+                            img.onerror = reject;
+                            img.src = url;
+                        });
+                    }
                 });
             </script>
+            
+            <style>
+                @media print {
+                    body {
+                        margin: 0;
+                        padding: 0;
+                    }
+                    #header-image {
+                        display: block !important;
+                    }
+                    .d-print-none, .dataTables_length, .dataTables_filter, .dataTables_info, .dataTables_paginate {
+                        display: none !important;
+                    }
+                    .table-responsive {
+                        overflow: visible !important;
+                    }
+                    #leave-table {
+                        page-break-inside: avoid;
+                    }
+                    .card-header, .card-body {
+                        page-break-inside: avoid;
+                    }
+                }
+            
+                #header-image {
+                    display: none;
+                }
+            </style>
+            
+            
+            
+            
 
             <!-- Sale & Revenue Start -->
             

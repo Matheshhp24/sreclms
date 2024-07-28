@@ -13,3 +13,6 @@ admin.site.register(CH_leave)
 admin.site.register(medicalLeave)
 admin.site.register(Announcement)
 admin.site.register(Leave_Availability)
+admin.site.register(default_table)
+admin.site.register(StaffDepartment)
+

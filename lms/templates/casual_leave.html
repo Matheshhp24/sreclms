@@ -69,6 +69,7 @@
 
   </head>
   <body>
+
     <div class="wrapper">
       <!-- Sidebar -->
       <div class="sidebar" data-background-color="dark" id="sidebar">
@@ -507,21 +508,6 @@
           <!-- End Navbar -->
         </div>
 
-        <div class="container">
-          <div class="page-inner">
-
-            <div id="notification-container" class="position-fixed top-0 end-0 p-3" style="z-index: 1051">
-              {% if notify %}
-                  <div class="alert alert-primary notification-item animate__animated animate__fadeInDown" role="alert" style="max-width: 400px;">
-                      <div class="d-flex justify-content-between align-items-center">
-                          <div>{{ notification_message }}</div>
-                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                      </div>
-                  </div>
-              {% endif %}
-          </div>
-
-
 
 
 <!-- <div class="container-xxl py-5"> -->
@@ -536,149 +522,155 @@
                 return confirmation;
             }
         </script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-        <div class="container-xxl py-1">
-            <div class="container py-1 px-lg-5">
-                <br>
-                <div class="row mt-n2 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="col-12">
-                        <div class="card border-primary">
-                            {% if flag %}
-                            <div class="alert alert-danger alert-dismissible fade show position-fixed top-50 start-50 translate-middle" role="alert" style="z-index: 9999;">
-                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                                <label>You Exceed CASUAL LEAVE limit - Try to apply different leave. For LOP</label>
-                                <a href="{% url 'LOPLeave' %}">LOP Leave</a>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                            {% endif %}
-                            <div class="card-body">
-                                <div class="container">
-                                    <h2 class="text-center mb-4">CASUAL LEAVE</h2>
+      <div class="container-xxl py-1">
+        <div class="container py-1 px-lg-5">
+            <br>
+            <div class="row mt-n2 ">
+                <div class="col-12">
+                    {% if flag %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                      <strong>You have exceeded the casual leave limit.</strong>  Please try to apply for a different type of leave. For LOP, click here <a href="{% url 'LopLeave' %}">LOP Leave</a>
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    {% endif %}
+                    <div class="card border-primary">
+                        <div class="card-body">
+                            <div class="container">
+                                <h2 class="text-center mb-4">CASUAL LEAVE</h2>
 
-                                    <form method="post" onsubmit="return showConfirmation()" action="{% url 'CasualLeave' %}" enctype="multipart/form-data">
-                                        {% csrf_token %}
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="dateOfLeave">Reason (Not required)</label>
-                                                <input type="text" class="form-control" name="reason" id="dateOfLeave">
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="onFromDate">On/From Date</label>
-                                                <input type="date" class="form-control" name="fromDate" id="onFromDate" required>
-                                            </div>
+                                <form method="post" onsubmit="return showConfirmation()" action="{% url 'CasualLeave' %}" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="dateOfLeave">Reason (Not required)</label>
+                                            <input type="text" class="form-control" name="reason" id="dateOfLeave">
                                         </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="toDate">To Date</label>
-                                                <input type="date" class="form-control" name="toDate" id="toDate" required>
-                                                <div id="totalDaysDisplay"></div>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="leaveType">Leave Type</label>
-                                                <select class="form-control" name="session" id="leaveType" required>
-                                                    <option value="fullDay">FULL DAY</option>
-                                                    <option value="An">AN</option>
-                                                    <option value="Fn">FN</option>
-                                                </select>
-                                            </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="onFromDate">On/From Date</label>
+                                            <input type="date" class="form-control" name="fromDate" id="onFromDate" required>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="fileInput">Upload File</label>
-                                            <input type="file" class="form-control-file" id="fileInput" name="file">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="toDate">To Date</label>
+                                            <input type="date" class="form-control" name="toDate" id="toDate" required>
+                                            <div id="totalDaysDisplay"></div>
                                         </div>
-                                        <br>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </form>
+                                        <div class="form-group col-md-6">
+                                            <label for="leaveType">Leave Type</label>
+                                            <select class="form-control" name="session" id="leaveType" required>
+                                                <option value="fullDay">FULL DAY</option>
+                                                <option value="An">AN</option>
+                                                <option value="Fn">FN</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fileInput">Upload File</label>
+                                        <input type="file" class="form-control-file" id="fileInput" name="file">
+                                    </div>
+                                    <br>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
 
-                                    <script>
-                                        document.addEventListener("DOMContentLoaded", function() {
-                                            // Get today's date
-                                            var today = new Date();
-                                            var dd = String(today.getDate()).padStart(2, '0');
-                                            var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-                                            var yyyy = today.getFullYear();
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function() {
+                                        // Get today's date
+                                        var today = new Date();
+                                        var dd = String(today.getDate()).padStart(2, '0');
+                                        var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+                                        var yyyy = today.getFullYear();
 
-                                            today = yyyy + '-' + mm + '-' + dd;
+                                        today = yyyy + '-' + mm + '-' + dd;
 
-                                            // Set the minimum date for the "On/From Date" input field
-                                            var fromDateInput = document.getElementById("onFromDate");
-                                            if (fromDateInput) {
-                                                fromDateInput.setAttribute("min", today);
+                                        // Set the minimum date for the "On/From Date" input field
+                                        var fromDateInput = document.getElementById("onFromDate");
+                                        if (fromDateInput) {
+                                            fromDateInput.setAttribute("min", today);
+                                        } else {
+                                            console.error("Element with ID 'onFromDate' not found.");
+                                        }
+
+                                        // Set the minimum date for the "To Date" input field
+                                        var toDateInput = document.getElementById("toDate");
+                                        if (toDateInput) {
+                                            toDateInput.setAttribute("min", today);
+                                        } else {
+                                            console.error("Element with ID 'toDate' not found.");
+                                        }
+                                    });
+
+                                    document.addEventListener("DOMContentLoaded", function() {
+                                        var fromDateInput = document.getElementById('onFromDate');
+                                        var toDateInput = document.getElementById('toDate');
+                                        var sessionSelect = document.getElementById('leaveType');
+                                        var totalDaysDisplay = document.getElementById('totalDaysDisplay');
+
+                                        function updateTotalDays() {
+                                            var fromDate = new Date(fromDateInput.value);
+                                            var toDate = new Date(toDateInput.value);
+                                            var session = sessionSelect.value;
+                                            var daysDifference;
+
+                                            if (session === 'fullDay') {
+                                                daysDifference = calculateFullDayDifference(fromDate, toDate);
+                                            } else if (session === 'An' || session === 'Fn') {
+                                                daysDifference = calculateHalfDayDifference(fromDate, toDate);
                                             } else {
-                                                console.error("Element with ID 'onFromDate' not found.");
+                                                totalDaysDisplay.textContent = 'Invalid session';
+                                                return;
                                             }
 
-                                            // Set the minimum date for the "To Date" input field
-                                            var toDateInput = document.getElementById("toDate");
-                                            if (toDateInput) {
-                                                toDateInput.setAttribute("min", today);
+                                            if (!isNaN(daysDifference) && daysDifference >= 0) {
+                                                totalDaysDisplay.textContent = 'Total Days: ' + daysDifference;
                                             } else {
-                                                console.error("Element with ID 'toDate' not found.");
+                                                totalDaysDisplay.textContent = 'Invalid date range';
                                             }
-                                        });
+                                        }
 
-                                        document.addEventListener("DOMContentLoaded", function() {
-                                            var fromDateInput = document.getElementById('onFromDate');
-                                            var toDateInput = document.getElementById('toDate');
-                                            var sessionSelect = document.getElementById('leaveType');
-                                            var totalDaysDisplay = document.getElementById('totalDaysDisplay');
+                                        function calculateFullDayDifference(fromDate, toDate) {
+                                            var timeDifference = toDate.getTime() - fromDate.getTime();
+                                            return (timeDifference / (1000 * 3600 * 24)) + 1;
+                                        }
 
-                                            function updateTotalDays() {
-                                                var fromDate = new Date(fromDateInput.value);
-                                                var toDate = new Date(toDateInput.value);
-                                                var session = sessionSelect.value;
-                                                var daysDifference;
+                                        function calculateHalfDayDifference(fromDate, toDate) {
+                                            var timeDifference = toDate.getTime() - fromDate.getTime();
+                                            var daysDifference = timeDifference / (1000 * 3600 * 24);
 
-                                                if (session === 'fullDay') {
-                                                    daysDifference = calculateFullDayDifference(fromDate, toDate);
-                                                } else if (session === 'An' || session === 'Fn') {
-                                                    daysDifference = calculateHalfDayDifference(fromDate, toDate);
-                                                } else {
-                                                    totalDaysDisplay.textContent = 'Invalid session';
-                                                    return;
-                                                }
-
-                                                if (!isNaN(daysDifference) && daysDifference >= 0) {
-                                                    totalDaysDisplay.textContent = 'Total Days: ' + daysDifference;
-                                                } else {
-                                                    totalDaysDisplay.textContent = 'Invalid date range';
-                                                }
+                                            if (daysDifference >= 0 && daysDifference < 1) {
+                                                return 0.5; // Less than 1 day counts as half-day
+                                            } else if (daysDifference >= 1) {
+                                                return 0.5 * (daysDifference + 1); // More than 1 day counts as a whole day
+                                            } else {
+                                                return 0; // Invalid date range
                                             }
+                                        }
 
-                                            function calculateFullDayDifference(fromDate, toDate) {
-                                                var timeDifference = toDate.getTime() - fromDate.getTime();
-                                                return (timeDifference / (1000 * 3600 * 24)) + 1;
-                                            }
+                                        fromDateInput.addEventListener('change', updateTotalDays);
+                                        toDateInput.addEventListener('change', updateTotalDays);
+                                        sessionSelect.addEventListener('change', updateTotalDays);
 
-                                            function calculateHalfDayDifference(fromDate, toDate) {
-                                                var timeDifference = toDate.getTime() - fromDate.getTime();
-                                                var daysDifference = timeDifference / (1000 * 3600 * 24);
+                                        // Initially calculate total days when the page loads
+                                        updateTotalDays();
+                                    });
+                            
+                            
+                            </script>
 
-                                                if (daysDifference >= 0 && daysDifference < 1) {
-                                                    return 0.5; // Less than 1 day counts as half-day
-                                                } else if (daysDifference >= 1) {
-                                                    return 0.5 * (daysDifference + 1); // More than 1 day counts as a whole day
-                                                } else {
-                                                    return 0; // Invalid date range
-                                                }
-                                            }
-
-                                            fromDateInput.addEventListener('change', updateTotalDays);
-                                            toDateInput.addEventListener('change', updateTotalDays);
-                                            sessionSelect.addEventListener('change', updateTotalDays);
-
-                                            // Initially calculate total days when the page loads
-                                            updateTotalDays();
-                                        });
-                                    </script>
-
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+      </div>
+
     </div>
 
     <!-- Back to Top -->

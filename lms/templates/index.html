@@ -658,6 +658,51 @@
                   </div>
               {% endif %}
           </div>
+          <style>
+            .icon-big {
+                font-size: 24px; /* Adjust the size as needed */
+            }
+    
+            .number {
+                font-size: 24px; /* Adjust the size as needed */
+                color: #ffffff; /* Adjust the color */
+                font-weight: bold; /* Bold text for emphasis */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 60px; /* Adjust to fit the layout */
+                height: 60px; /* Adjust to fit the layout */
+                border-radius: 50%;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow for a bubble effect */
+            }
+    
+            .icon-primary {
+                background-color: #007bff; /* Primary color for the icon background */
+            }
+    
+            .bubble-shadow-small {
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+    
+            .col-icon {
+                margin-right: 1rem; /* Adjust margin as needed */
+            }
+    
+            .col-stats {
+                display: flex;
+                flex-direction: column;
+            }
+    
+            .card-title {
+                font-size: 1.25rem; /* Adjust font size as needed */
+                margin: 0;
+            }
+    
+            .card-category {
+                font-size: 1rem; /* Adjust font size as needed */
+                color: #6c757d; /* Secondary color */
+            }
+        </style>
 
 
             <div
@@ -675,19 +720,17 @@
                   <div class="card-body">
                     <div class="row align-items-center">
                       <div class="col-icon">
-                        <div
-                          class="icon-big text-center icon-primary bubble-shadow-small"
-                        >
-                        <i class="fas fa-bed"></i>
+                        <div class="icon-big text-center icon-primary bubble-shadow-small">
+                            <span class="number">{{total_days.0}}</span> <!-- Number in place of the icon -->
                         </div>
-                      </div>
-                      
-                      <div class="col col-stats ms-3 ms-sm-0">
+                    </div>
+                    <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
-                          <h4 class="card-title">Casual Leave</h4>
-                          <p class="card-category">Last Applied : {{last_leave.casual_leave}}</p>
+                            <h4 class="card-title">Casual Leave</h4>
+                            <p class="card-category">Last Applied: {{ last_leave.casual_leave }}</p>
                         </div>
-                      </div>
+                    </div>
+                   
                    
                     </div>
                   </div>
@@ -723,11 +766,9 @@
                   <div class="card-body">
                     <div class="row align-items-center">
                       <div class="col-icon">
-                        <div
-                          class="icon-big text-center icon-success bubble-shadow-small"
-                        >
-                        <i class="fas fa-coins"></i>
-                        </div>
+                        <div class="icon-big text-center icon-success bubble-shadow-small">
+                          <span class="number">{{total_days.5}}</span> <!-- Number in place of the icon -->
+                      </div>
                       </div>
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
@@ -746,11 +787,9 @@
                   <div class="card-body">
                     <div class="row align-items-center">
                       <div class="col-icon">
-                        <div
-                          class="icon-big text-center icon-secondary bubble-shadow-small"
-                        >
-                        <i class="fas fa-umbrella-beach"></i>
-                        </div>
+                        <div class="icon-big text-center icon-secondary bubble-shadow-small">
+                          <span class="number">{{total_days.1}}</span> <!-- Number in place of the icon -->
+                      </div>
                       </div>
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
@@ -769,11 +808,9 @@
                   <div class="card-body">
                     <div class="row align-items-center">
                       <div class="col-icon">
-                        <div
-                          class="icon-big text-center icon-danger bubble-shadow-small"
-                        >
-                        <i class="fas fa-suitcase"></i>
-                        </div>
+                        <div class="icon-big text-center icon-danger bubble-shadow-small">
+                          <span class="number">{{total_days.2}}</span> <!-- Number in place of the icon -->
+                      </div>
                       </div>
                       
                       <div class="col col-stats ms-3 ms-sm-0">
@@ -817,11 +854,9 @@
                   <div class="card-body">
                     <div class="row align-items-center">
                       <div class="col-icon">
-                        <div
-                          class="icon-big text-center icon-primary bubble-shadow-small"
-                        >
-                        <i class="fas fa-notes-medical"></i>
-                        </div>
+                        <div class="icon-big text-center icon-primary bubble-shadow-small">
+                          <span class="number">{{total_days.4}}</span> <!-- Number in place of the icon -->
+                      </div>
                       </div>
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
@@ -840,11 +875,9 @@
                   <div class="card-body">
                     <div class="row align-items-center">
                       <div class="col-icon">
-                        <div
-                          class="icon-big text-center icon-danger bubble-shadow-small" 
-                        >
-                        <i class="fas fa-medkit"></i>
-                        </div>
+                        <div class="icon-big text-center icon-danger bubble-shadow-small">
+                          <span class="number">{{total_days.3}}</span> <!-- Number in place of the icon -->
+                      </div>
                       </div>
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">

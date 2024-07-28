@@ -84,31 +84,65 @@
                     </div>
                     <div class="ms-3">
                         <h6 class="mb-0">SREC</h6>
-                        <span>Admin {{ admin }}</span>
+                        <span>Admin {{admin }}</span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="{% url 'AdminPage' %}" class="nav-item nav-link "><i class="fas fa-tachometer-alt"></i>Admin panel</a>
-                    <a href="{% url 'NewRequests' %}" class="nav-item nav-link"><i class="fas fa-keyboard"></i>New Requests   
+                    {% if is_hod %}
+                    <a href="{% url 'HODPage' %}" class="nav-item nav-link "><i class="fas fa-tachometer-alt"></i> Admin panel</a>
+                    {% else %}
+                    <a href="{% url 'AdminPage' %}" class="nav-item nav-link "><i class="fas fa-tachometer-alt"></i> Admin panel</a>
+                    {% endif %}
+                    {% if is_hod %}
+                        <a href="{% url 'HODNewRequests' %}" class="nav-item nav-link "><i class="fas fa-keyboard"></i> New Requests
+                    {% elif is_principal %}
+                        <a href="{% url 'NewRequests' %}" class="nav-item nav-link "><i class="fas fa-keyboard"></i> New Requests   
+                    {% else %}
+                           
+                    {% endif %}
                         {% if pending > 0 %}
-                            <span class="badge bg-danger rounded-pill">{{ pending }}</span>
+                            <span class="badge bg-danger rounded-pill"> {{ pending }}</span>
                         {% else %}
                             <span></span>
                         {% endif %}
                     </a>
                     
-                    
-                    <a href="{% url 'AddStaff' %}" class="nav-item nav-link"><i class="fas fa-user-plus"></i>Add Staff </a>
-                    <a href="{% url 'DeleteStaffView' %}" class="nav-item nav-link active"><i class="fas fa-user-minus"></i>Delete Staff </a>
-                    <a href="{% url 'EditStaffView' %}" class="nav-item nav-link"><i class="fas fa-user-edit"></i>Edit Staff </a>
-                    <a href="{% url 'AvailLeaveView' %}" class="nav-item nav-link"><i class="fas fa-calendar-check"></i>Avail Leave</a>
-                    <a href="{% url 'DownloadView' %}" class="nav-item nav-link"><i class="fas fa-download"></i>Download</a>
+                    {% if is_hod %}
+                    {% elif is_principal %}
+                    {% else %}
+                    <a href="{% url 'AddStaff' %}" class="nav-item nav-link"><i class="fas fa-user-plus"></i> Add Staff </a>
+                    {% endif %}
+                    {% if is_hod %}
+                    {% elif is_principal %}
+                    {% else %}
+                    <a href="{% url 'DeleteStaffView' %}" class="nav-item nav-link active"><i class="fas fa-user-minus"></i> Delete Staff </a>
+                    {% endif %}
+                    {% if is_hod %}
+                    {% elif is_principal %}
+                    {% else %}
+                    <a href="{% url 'EditStaffView' %}" class="nav-item nav-link"><i class="fas fa-user-edit"></i> Edit Staff </a>
+                    {% endif %}
+                    {% if is_hod %}
+                    {% elif is_principal %}
+                    {% else %}
+                    <a href="{% url 'AvailLeaveView' %}" class="nav-item nav-link"><i class="fas fa-calendar-check"></i> Avail Leave</a>
+                    {% endif %}
+                    {% if is_hod %}
+                    <a href="{% url 'HODDownloadView' %}" class="nav-item nav-link"><i class="fas fa-download"></i> Download</a>
+                    {% else %}
+                    <a href="{% url 'DownloadView' %}" class="nav-item nav-link"><i class="fas fa-download"></i> Download</a>
+                    {% endif %}
+                    {% if is_hod %}
+                    <a href="{% url 'HODLeaveAvailability' %}" class="nav-item nav-link"><i class="fas fa-building"></i>Remaining</a>
+                    {% else %}
                     <a href="{% url 'LeaveAvailability' %}" class="nav-item nav-link"><i class="fas fa-building"></i>Remaining</a>
+                    {% endif %}
                     {% if is_hod %}
                     <a href="{% url 'HODAdminAccount' %}" class="nav-item nav-link "><i class="fas fa-cogs"></i>Account</a>
                     {% else %}
                     <a href="{% url 'AdminAccount' %}" class="nav-item nav-link "><i class="fas fa-cogs"></i>Account</a>
                     {% endif %}
+
                 </div>
             </nav>
         </div>

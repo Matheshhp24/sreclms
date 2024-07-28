@@ -95,29 +95,38 @@
                     {% endif %}
                     {% if is_hod %}
                         <a href="{% url 'HODNewRequests' %}" class="nav-item nav-link"><i class="fas fa-keyboard"></i> New Requests
-                    {% else %}
+                    {% elif is_principal %}
                         <a href="{% url 'NewRequests' %}" class="nav-item nav-link"><i class="fas fa-keyboard"></i> New Requests   
+                    {% else %}
+                           
                     {% endif %}
+                    {%if is_principal or is_hod %}
                         {% if pending > 0 %}
                             <span class="badge bg-danger rounded-pill"> {{ pending }}</span>
                         {% else %}
                             <span></span>
                         {% endif %}
+                    {% else %}
+                    {% endif %}
                     </a>
                     
                     {% if is_hod %}
+                    {% elif is_principal %}
                     {% else %}
                     <a href="{% url 'AddStaff' %}" class="nav-item nav-link"><i class="fas fa-user-plus"></i> Add Staff </a>
                     {% endif %}
                     {% if is_hod %}
+                    {% elif is_principal %}
                     {% else %}
                     <a href="{% url 'DeleteStaffView' %}" class="nav-item nav-link"><i class="fas fa-user-minus"></i> Delete Staff </a>
                     {% endif %}
                     {% if is_hod %}
+                    {% elif is_principal %}
                     {% else %}
                     <a href="{% url 'EditStaffView' %}" class="nav-item nav-link"><i class="fas fa-user-edit"></i> Edit Staff </a>
                     {% endif %}
                     {% if is_hod %}
+                    {% elif is_principal %}
                     {% else %}
                     <a href="{% url 'AvailLeaveView' %}" class="nav-item nav-link"><i class="fas fa-calendar-check"></i> Avail Leave</a>
                     {% endif %}
@@ -155,6 +164,8 @@
                 </a>
                 {% if is_hod %}
                 <p class="d-none d-md-flex ms-4 border-0" style="padding-top: 15px;">HOD Panel</p>
+                {% elif is_principal %}
+                <p class="d-none d-md-flex ms-4 border-0" style="padding-top: 15px;">Principal Panel</p>
                 {% else %}
                 <p class="d-none d-md-flex ms-4 border-0" style="padding-top: 15px;">HR Panel</p>
                 {% endif %}
